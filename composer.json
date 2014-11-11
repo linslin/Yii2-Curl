@@ -1,8 +1,8 @@
 {
     "name": "linslin/yii2-curl",
-    "description": "Cool working curl extension for Yii",
+    "description": "Cool working cURL extension with RESTful support for Yii",
     "type": "yii2-extension",
-    "keywords": ["yii2","extension"," curl"],
+    "keywords": ["yii2","extension"," curl", "RESTful"],
     "license": "MIT",
     "authors": [
         {
