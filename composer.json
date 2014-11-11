@@ -1,0 +1,21 @@
+{
+    "name": "linslin/yii2-curl",
+    "description": "Cool working curl extension for Yii",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"," curl"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nils Gajsek",
+            "email": "info@linslin.org"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "linslin\\yii2\\curl\\": ""
+        }
+    }
+}
