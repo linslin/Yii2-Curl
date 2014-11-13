@@ -186,7 +186,7 @@ class TestController extends Controller
     /**
      * cURL advanced GET example with HTTP status codes
      */
-    public function actionGetExample()
+    public function actionGetAdvancedExample()
     {
         //Init curl
         $curl = new curl\Curl();
