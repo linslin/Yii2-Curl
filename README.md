@@ -11,12 +11,12 @@ Cool working curl extension for Yii2, including RESTful support:
 Changelog
 ------------
 
-### Release 1.0.1 - Changelog
+##### Release 1.0.1 - Changelog
 
 - Removed widget support
 - Edited some spellings + added more examples into readme.md
 
-### Release 1.0 - Changelog
+##### Release 1.0 - Changelog
 
 - Official stable release
 
