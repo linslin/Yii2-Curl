@@ -1,12 +1,25 @@
 yii2-curl extension
 ===================
-Cool working curl extension for Yii, including RESTful supoort:
+Cool working curl extension for Yii2, including RESTful support:
 
  - POST
  - GET
  - HEAD
  - PUT
  - DELETE
+ 
+Changelog
+------------
+
+### Release 1.0.1 - Changelog
+
+- Removed widget support
+- Edited some spellings + added more examples into readme.md
+
+### Release 1.0 - Changelog
+
+- Official stable release
+
 
 Installation
 ------------
@@ -127,20 +140,23 @@ use linslin\yii2\curl;
 class TestController extends Controller
 {
 
+    /**
+     * Yii action controller
+     */
     public function actions()
     {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
         ];
     }
+    
 
-    public function actionIndex()
+    /**
+     * cURL Get example
+     */
+    public function actionGetExample()
     {
         //Init curl
         $curl = new curl\Curl();
@@ -149,6 +165,48 @@ class TestController extends Controller
         $response = $curl->get(
             'http://example.com/'
         );
+    }
+    
+
+    /**
+     * cURL Post example
+     */
+    public function actionGetExample()
+    {
+        //Init curl
+        $curl = new curl\Curl();
+
+        //get http://example.com/
+        $response = $curl->post(
+            'http://example.com/'
+        );
+    }
+    
+
+    /**
+     * cURL advanced GET example with HTTP status codes
+     */
+    public function actionGetExample()
+    {
+        //Init curl
+        $curl = new curl\Curl();
+
+        //get http://example.com/
+        $response = $curl->post(
+            'http://example.com/'
+        );
+        
+        // List of status codes here http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+        switch ($curl->responseCode) {
+        
+            case 200:
+                //success logic here
+                break;
+                
+            case 404:
+                //404 Error logic here
+                break;
+        }
     }
 }
 ```

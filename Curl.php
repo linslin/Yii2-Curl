@@ -8,7 +8,7 @@
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2014 Nils Gajsek<info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0
+ * @version   1.0.1
  * @link      http://www.linslin.com
  *
  */
@@ -24,7 +24,7 @@ use yii\web\HttpException;
 /**
  * cURL class
  */
-class Curl extends \yii\base\Widget
+class Curl
 {
 
     // ################################################ class vars // ################################################
