@@ -13,8 +13,11 @@ Changelog
 
 ##### Release 1.0.2 - Changelog
 
-- Added custom param support
-- Readme modifcations
+- Added custom params support
+- Added custom status code support
+- Added POST-Param support and a readme example
+- Removed "body" support at request functions. Please use "CURLOPT_POSTFIELDS" to setup a body now.
+- Readme modifications
 
 ##### Release 1.0.1 - Changelog
 
@@ -28,6 +31,7 @@ Changelog
 
 Requirements
 ------------
+- Yii2
 - PHP 5.4+
 - Curl and php-curl installed
 
@@ -51,7 +55,6 @@ Once the extension is installed, simply use it in your code. The following examp
 <?php
 /**
  * Yii2 test controller
- * With RESTful support. Inspired by wenbin1989/yii2-curl.
  *
  * @category  Web-yii2-example
  * @package   yii2-curl-example
@@ -82,10 +85,10 @@ class TestController extends Controller
             ],
         ];
     }
-    
+
 
     /**
-     * cURL Get example
+     * cURL GET example
      */
     public function actionGetExample()
     {
@@ -93,26 +96,42 @@ class TestController extends Controller
         $curl = new curl\Curl();
 
         //get http://example.com/
-        $response = $curl->get(
-            'http://example.com/'
-        );
+        $response = $curl->get('http://example.com/');
     }
-    
+
 
     /**
-     * cURL Post example
+     * cURL POST example with post body params.
      */
-    public function actionGetExample()
+    public function actionPostExample()
     {
         //Init curl
         $curl = new curl\Curl();
 
-        //get http://example.com/
-        $response = $curl->post(
-            'http://example.com/'
-        );
+        //post http://example.com/
+        $response = $curl->setOption(CURLOPT_POSTFIELDS, http_build_query(array('myPostField' => 'value')))
+            ->post('http://example.com/');
     }
-    
+
+
+    /**
+     * cURL multiple POST example one after one
+     */
+    public function actionMultipleRequest()
+    {
+        //Init curl
+        $curl = new curl\Curl();
+
+        //post http://example.com/
+        $response = $curl->setOption(CURLOPT_POSTFIELDS, http_build_query(array('myPostField' => 'value')))
+            ->post('http://example.com/');
+
+        //post http://example.com/, reset request before
+        $response = $curl->reset()
+            ->setOption(CURLOPT_POSTFIELDS, http_build_query(array('myPostField' => 'value')))
+            ->post('http://example.com/');
+    }
+
 
     /**
      * cURL advanced GET example with HTTP status codes
@@ -123,17 +142,15 @@ class TestController extends Controller
         $curl = new curl\Curl();
 
         //get http://example.com/
-        $response = $curl->post(
-            'http://example.com/'
-        );
-        
+        $response = $curl->post('http://example.com/');
+
         // List of status codes here http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
         switch ($curl->responseCode) {
-        
+
             case 200:
                 //success logic here
                 break;
-                
+
             case 404:
                 //404 Error logic here
                 break;
