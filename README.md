@@ -51,7 +51,7 @@ Usage
 
 Once the extension is installed, simply use it in your code. The following example shows you how to handling a simple GET Request. 
 
-```
+```php
 <?php
 /**
  * Yii2 test controller
