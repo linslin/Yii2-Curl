@@ -243,7 +243,7 @@ class Curl
      */
     public function getOptions()
     {
-        return $this->_defaultOptions + $this->_options;
+        return $this->_options + $this->_defaultOptions;
     }
 
 
