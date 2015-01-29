@@ -41,7 +41,7 @@ Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
-```
+```bash
 php composer.phar require --prefer-dist linslin/yii2-curl "*"
 ```
 
@@ -51,7 +51,7 @@ Usage
 
 Once the extension is installed, simply use it in your code. The following example shows you how to handling a simple GET Request. 
 
-```
+```php
 <?php
 /**
  * Yii2 test controller
