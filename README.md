@@ -11,6 +11,10 @@ Cool working curl extension for Yii2, including RESTful support:
 Changelog
 ------------
 
+##### Release 1.0.3 - Changelog
+- Nice formatted PHP-examples. 
+- Moved `parent::init();` behavior into unitTest Controller.
+
 ##### Release 1.0.2 - Changelog
 
 - Added custom params support
@@ -109,7 +113,12 @@ class TestController extends Controller
         $curl = new curl\Curl();
 
         //post http://example.com/
-        $response = $curl->setOption(CURLOPT_POSTFIELDS, http_build_query(array('myPostField' => 'value')))
+        $response = $curl->setOption(
+                CURLOPT_POSTFIELDS, 
+                http_build_query(array(
+                    'myPostField' => 'value'
+                )
+            ))
             ->post('http://example.com/');
     }
 
@@ -122,13 +131,25 @@ class TestController extends Controller
         //Init curl
         $curl = new curl\Curl();
 
+
         //post http://example.com/
-        $response = $curl->setOption(CURLOPT_POSTFIELDS, http_build_query(array('myPostField' => 'value')))
+        $response = $curl->setOption(
+            CURLOPT_POSTFIELDS, 
+            http_build_query(array(
+                'myPostField' => 'value'
+                )
+            ))
             ->post('http://example.com/');
+
 
         //post http://example.com/, reset request before
         $response = $curl->reset()
-            ->setOption(CURLOPT_POSTFIELDS, http_build_query(array('myPostField' => 'value')))
+            ->setOption(
+                CURLOPT_POSTFIELDS, 
+                http_build_query(array(
+                    'myPostField' => 'value'
+                )
+            ))
             ->post('http://example.com/');
     }
 

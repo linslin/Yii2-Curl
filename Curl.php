@@ -8,7 +8,7 @@
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2015 Nils Gajsek<info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0.2
+ * @version   1.0.3
  * @link      http://www.linslin.org
  *
  */
@@ -63,18 +63,8 @@ class Curl
     );
 
 
+
     // ############################################### class methods // ##############################################
-
-    /**
-     * Init function
-     *
-     * @inheritdoc
-     */
-    public function init()
-    {
-        parent::init();
-    }
-
 
     /**
      * Start performing GET-HTTP-Request
