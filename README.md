@@ -11,6 +11,10 @@ Cool working curl extension for Yii2, including RESTful support:
 Changelog
 ------------
 
+##### Release 1.0.4 - Changelog
+- nothing changed atm. 
+
+
 ##### Release 1.0.3 - Changelog
 - Fixed override of user options. https://github.com/linslin/Yii2-Curl/pull/7 
 - Nice formatted PHP-examples. 
@@ -66,7 +70,7 @@ Once the extension is installed, simply use it in your code. The following examp
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2015 Nils Gajsek<info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0.2
+ * @version   1.0.4
  * @link      http://www.linslin.org
  *
  */

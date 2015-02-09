@@ -8,7 +8,7 @@
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2015 Nils Gajsek<info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0.3
+ * @version   1.0.4
  * @link      http://www.linslin.org
  *
  */
