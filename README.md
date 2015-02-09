@@ -12,6 +12,7 @@ Changelog
 ------------
 
 ##### Release 1.0.3 - Changelog
+- Fixed override of user options. https://github.com/linslin/Yii2-Curl/pull/7 
 - Nice formatted PHP-examples. 
 - Moved `parent::init();` behavior into unitTest Controller.
 
