@@ -7,36 +7,6 @@ Cool working curl extension for Yii2, including RESTful support:
  - HEAD
  - PUT
  - DELETE
- 
-Changelog
-------------
-
-##### Release 1.0.4 - Changelog
-- nothing changed atm. 
-
-
-##### Release 1.0.3 - Changelog
-- Fixed override of user options. https://github.com/linslin/Yii2-Curl/pull/7 
-- Nice formatted PHP-examples. 
-- Moved `parent::init();` behavior into unitTest Controller.
-
-##### Release 1.0.2 - Changelog
-
-- Added custom params support
-- Added custom status code support
-- Added POST-Param support and a readme example
-- Removed "body" support at request functions. Please use "CURLOPT_POSTFIELDS" to setup a body now.
-- Readme modifications
-
-##### Release 1.0.1 - Changelog
-
-- Removed widget support
-- Edited some spellings + added more examples into readme.md
-
-##### Release 1.0 - Changelog
-
-- Official stable release
-
 
 Requirements
 ------------
@@ -184,4 +154,34 @@ class TestController extends Controller
     }
 }
 ```
+
+ 
+Changelog
+------------
+
+##### Release 1.0.4 - Changelog
+- `CURLOPT_RETURNTRANSFER` is now set to true on default - https://github.com/linslin/Yii2-Curl/issues/18 
+
+
+##### Release 1.0.3 - Changelog
+- Fixed override of user options. https://github.com/linslin/Yii2-Curl/pull/7 
+- Nice formatted PHP-examples. 
+- Moved `parent::init();` behavior into unitTest Controller.
+
+##### Release 1.0.2 - Changelog
+
+- Added custom params support
+- Added custom status code support
+- Added POST-Param support and a readme example
+- Removed "body" support at request functions. Please use "CURLOPT_POSTFIELDS" to setup a body now.
+- Readme modifications
+
+##### Release 1.0.1 - Changelog
+
+- Removed widget support
+- Edited some spellings + added more examples into readme.md
+
+##### Release 1.0 - Changelog
+
+- Official stable release
 
