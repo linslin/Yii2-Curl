@@ -278,8 +278,10 @@ class Curl
          */
         $curl = curl_init($url);
         curl_setopt_array($curl, $this->getOptions());
+        $body = curl_exec($curl);
 
-        if (curl_exec($curl) === false) {
+        //check if curl was successful
+        if ($body === false) {
             throw new Exception('curl request failed: ' . curl_error($curl) , curl_errno($curl));
         }
 
@@ -293,7 +295,7 @@ class Curl
         //end yii debug profile
         Yii::endProfile($method.' '.$url .'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
 
-
+        //check responseCode and return data/status
         if ($this->responseCode >= 200 && $this->responseCode < 300) { // all between 200 && 300 is successful
             if ($this->getOption(CURLOPT_CUSTOMREQUEST) === 'HEAD') {
                 return true;
