@@ -161,6 +161,7 @@ Changelog
 
 ##### Release 1.0.4 - Changelog
 - `CURLOPT_RETURNTRANSFER` is now set to true on default - https://github.com/linslin/Yii2-Curl/issues/18 
+- Readme.md adjustments.
 
 
 ##### Release 1.0.3 - Changelog
