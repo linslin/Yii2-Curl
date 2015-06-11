@@ -44,6 +44,21 @@ class Curl
 
 
     /**
+     * @var integer 
+     * option reconnect, number of attempts to reconnect ustanavlivoetsya, 
+     * in the case of the first unsuccessful connection
+     */
+    public $retryCount = NULL;
+    
+    
+    /**
+     * @var integer 
+     * counting the number of connection attempts
+     */
+    private $thisRetryCount = 0;
+    
+    
+    /**
      * @var array HTTP-Status Code
      * Custom options holder
      */
@@ -282,7 +297,24 @@ class Curl
 
         //check if curl was successful
         if ($body === false) {
-            throw new Exception('curl request failed: ' . curl_error($curl) , curl_errno($curl));
+            
+            /**
+             * try to reconnect
+             */
+            if(isset($this->retryCount) && !empty($this->retryCount) && $this->thisRetryCount <= $this->retryCount) {
+                
+                /**
+                 * attempts to re count
+                 */
+                $this->thisRetryCount++;
+                
+                sleep(5);
+                $this->_httpRequest($method, $url, $raw);
+            } else {
+                throw new Exception('curl request failed: ' . curl_error($curl) , curl_errno($curl));
+            }
+        } else {
+            $this->thisRetryCount = 0;
         }
 
         //retrieve response code
