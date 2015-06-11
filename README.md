@@ -192,6 +192,7 @@ class TestController extends Controller
 Changelog
 ------------
 ##### Release 1.0.5 - Changelog
+- Fixed Issue https://github.com/linslin/Yii2-Curl/issues/19 where override default settings break options.
 - Added timeout response handling. `$curl->responseCode = 'timeout'`
 
 ##### Release 1.0.4 - Changelog
