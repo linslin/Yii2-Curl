@@ -8,7 +8,7 @@
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2015 Nils Gajsek<info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0.4
+ * @version   1.0.5
  * @link      http://www.linslin.org
  *
  */
@@ -282,7 +282,17 @@ class Curl
 
         //check if curl was successful
         if ($body === false) {
-            throw new Exception('curl request failed: ' . curl_error($curl) , curl_errno($curl));
+            switch (curl_errno($curl)) {
+
+                case 7:
+                    $this->responseCode = 'timeout';
+                    return false;
+                    break;
+
+                default:
+                    throw new Exception('curl request failed: ' . curl_error($curl) , curl_errno($curl));
+                    break;
+            }
         }
 
         //retrieve response code

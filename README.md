@@ -40,7 +40,7 @@ Once the extension is installed, simply use it in your code. The following examp
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2015 Nils Gajsek<info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0.4
+ * @version   1.0.5
  * @link      http://www.linslin.org
  *
  */
@@ -143,6 +143,39 @@ class TestController extends Controller
         // List of status codes here http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
         switch ($curl->responseCode) {
 
+            case 'timeout:
+                //timeout error logic here
+                break;
+                
+            case 200:
+                //success logic here
+                break;
+
+            case 404:
+                //404 Error logic here
+                break;
+        }
+    }
+    
+    
+    /**
+     * cURL timeout chaining/handling
+     */
+    public function actionHandleTimeoutExample()
+    {
+        //Init curl
+        $curl = new curl\Curl();
+
+        //get http://www.google.com:81/ -> timeout
+        $response = $curl->post('http://www.google.com:81/');
+
+        // List of status codes here http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+        switch ($curl->responseCode) {
+
+            case 'timeout:
+                //timeout error logic here
+                break;
+                
             case 200:
                 //success logic here
                 break;
@@ -158,6 +191,8 @@ class TestController extends Controller
  
 Changelog
 ------------
+##### Release 1.0.5 - Changelog
+- Added timeout response handling. `$curl->responseCode = 'timeout'`
 
 ##### Release 1.0.4 - Changelog
 - `CURLOPT_RETURNTRANSFER` is now set to true on default - https://github.com/linslin/Yii2-Curl/issues/18 
