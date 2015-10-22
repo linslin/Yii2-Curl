@@ -278,10 +278,10 @@ class Curl
          */
         $curl = curl_init($url);
         curl_setopt_array($curl, $this->getOptions());
-        $body = curl_exec($curl);
+        $response = curl_exec($curl);
 
         //check if curl was successful
-        if ($body === false) {
+        if ($response === false) {
             throw new Exception('curl request failed: ' . curl_error($curl) , curl_errno($curl));
         }
 
