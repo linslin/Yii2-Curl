@@ -251,9 +251,6 @@ class Curl
      */
     private function _httpRequest($method, $url, $raw = false)
     {
-        //Init
-        $body = '';
-
         //set request type and writer function
         $this->setOption(CURLOPT_CUSTOMREQUEST, strtoupper($method));
 
@@ -261,13 +258,7 @@ class Curl
         if ($method === 'HEAD') {
             $this->setOption(CURLOPT_NOBODY, true);
             $this->unsetOption(CURLOPT_WRITEFUNCTION);
-        } else {
-            $this->setOption(CURLOPT_WRITEFUNCTION, function ($curl, $data) use (&$body) {
-                $body .= $data;
-                return mb_strlen($data, '8bit');
-            });
         }
-
 
         //setup error reporting and profiling
         Yii::trace('Start sending cURL-Request: '.$url.'\n', __METHOD__);
