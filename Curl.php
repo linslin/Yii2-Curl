@@ -297,17 +297,11 @@ class Curl
         Yii::endProfile($method.' '.$url .'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
 
         //check responseCode and return data/status
-        if ($this->responseCode >= 200 && $this->responseCode < 300) { // all between 200 && 300 is successful
-            if ($this->getOption(CURLOPT_CUSTOMREQUEST) === 'HEAD') {
-                return true;
-            } else {
-                $this->response = $raw ? $this->response : Json::decode($this->response);
-                return $this->response;
-            }
-        } elseif ($this->responseCode >= 400 && $this->responseCode <= 510) { // client and server errors return false.
-            return false;
-        } else { //any other status code or custom codes
+        if ($this->getOption(CURLOPT_CUSTOMREQUEST) === 'HEAD') {
             return true;
+        } else {
+            $this->response = $raw ? $this->response : Json::decode($this->response);
+            return $this->response;
         }
     }
 }
