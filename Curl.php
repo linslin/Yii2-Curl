@@ -84,7 +84,6 @@ class Curl
      * Start performing HEAD-HTTP-Request
      *
      * @param string $url
-     * @param string $body
      *
      * @return mixed response
      */
@@ -98,7 +97,6 @@ class Curl
      * Start performing POST-HTTP-Request
      *
      * @param string  $url
-     * @param string  $body
      * @param boolean $raw if response body contains JSON and should be decoded
      *
      * @return mixed response
@@ -113,7 +111,6 @@ class Curl
      * Start performing PUT-HTTP-Request
      *
      * @param string  $url
-     * @param string  $body
      * @param boolean $raw if response body contains JSON and should be decoded
      *
      * @return mixed response
@@ -128,7 +125,6 @@ class Curl
      * Start performing DELETE-HTTP-Request
      *
      * @param string  $url
-     * @param string  $body
      * @param boolean $raw if response body contains JSON and should be decoded
      *
      * @return mixed response
@@ -218,7 +214,8 @@ class Curl
     /**
      * Return a single option
      *
-     * @return mixed // false if option is not set.
+     * @param string|integer $key
+     * @return mixed|boolean
      */
     public function getOption($key)
     {
@@ -249,7 +246,6 @@ class Curl
      * @param boolean $raw if response body contains JSON and should be decoded -> helper.
      *
      * @throws Exception if request failed
-     * @throws HttpException
      *
      * @return mixed
      */
