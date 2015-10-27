@@ -143,7 +143,7 @@ class TestController extends Controller
         // List of status codes here http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
         switch ($curl->responseCode) {
 
-            case 'timeout:
+            case 'timeout':
                 //timeout error logic here
                 break;
                 
@@ -172,7 +172,7 @@ class TestController extends Controller
         // List of status codes here http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
         switch ($curl->responseCode) {
 
-            case 'timeout:
+            case 'timeout':
                 //timeout error logic here
                 break;
                 
