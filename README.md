@@ -40,7 +40,7 @@ Once the extension is installed, simply use it in your code. The following examp
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2015 Nils Gajsek<info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0.5
+ * @version   1.0.6
  * @link      http://www.linslin.org
  *
  */
@@ -191,6 +191,9 @@ class TestController extends Controller
  
 Changelog
 ------------
+##### Release 1.0.6 - Changelog
+- Added `getInfo([, int $opt = 0 ])` method to retrieve http://php.net/manual/de/function.curl-getinfo.php data.
+
 ##### Release 1.0.5 - Changelog
 - Made `body` callback not depending on HTTP-Status codes anymore. You can retrieve `body` data on any HTTP-Status now. 
 - Fixed Issue https://github.com/linslin/Yii2-Curl/issues/19 where override default settings break options.

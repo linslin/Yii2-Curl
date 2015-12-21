@@ -8,7 +8,7 @@
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2015 Nils Gajsek<info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0.5
+ * @version   1.0.6
  * @link      http://www.linslin.org
  *
  */
@@ -35,19 +35,24 @@ class Curl
      */
     public $response = null;
 
-
     /**
      * @var integer HTTP-Status Code
      * This value will hold HTTP-Status Code. False if request was not successful.
      */
     public $responseCode = null;
 
-
     /**
      * @var array HTTP-Status Code
      * Custom options holder
      */
     private $_options = array();
+
+
+    /**
+     * @var object
+     * Holds cURL-Handler
+     */
+    private $_curl = null;
 
 
     /**
@@ -198,12 +203,17 @@ class Curl
      */
     public function reset()
     {
+        if ($this->_curl !== null) {
+            curl_close($this->_curl); //stop curl
+        }
+
         //reset all options
         if (isset($this->_options)) {
             $this->_options = array();
         }
 
         //reset response & status code
+        $this->_curl = null;
         $this->response = null;
         $this->responseCode = null;
 
@@ -239,6 +249,23 @@ class Curl
 
 
     /**
+     * Get curl info according to http://php.net/manual/de/function.curl-getinfo.php
+     *
+     * @return mixed
+     */
+    public function getInfo($opt = null)
+    {
+        if ($this->_curl !== null && $opt === null) {
+            return curl_getinfo($this->_curl);
+        } elseif ($opt !== null)  {
+            return curl_getinfo($this->_curl, $opt);
+        } else {
+            return [];
+        }
+    }
+
+
+    /**
      * Performs HTTP request
      *
      * @param string  $method
@@ -267,13 +294,13 @@ class Curl
         /**
          * proceed curl
          */
-        $curl = curl_init($url);
-        curl_setopt_array($curl, $this->getOptions());
-        $body = curl_exec($curl);
+        $this->_curl = curl_init($url);
+        curl_setopt_array($this->_curl, $this->getOptions());
+        $body = curl_exec($this->_curl);
 
         //check if curl was successful
         if ($body === false) {
-            switch (curl_errno($curl)) {
+            switch (curl_errno($this->_curl)) {
 
                 case 7:
                     $this->responseCode = 'timeout';
@@ -281,17 +308,14 @@ class Curl
                     break;
 
                 default:
-                    throw new Exception('curl request failed: ' . curl_error($curl) , curl_errno($curl));
+                    throw new Exception('curl request failed: ' . curl_error($this->_curl) , curl_errno($this->_curl));
                     break;
             }
         }
 
         //retrieve response code
-        $this->responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $this->responseCode = curl_getinfo($this->_curl, CURLINFO_HTTP_CODE);
         $this->response = $body;
-
-        //stop curl
-        curl_close($curl);
 
         //end yii debug profile
         Yii::endProfile($method.' '.$url .'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
