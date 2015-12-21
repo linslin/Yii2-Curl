@@ -40,7 +40,7 @@ Once the extension is installed, simply use it in your code. The following examp
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2015 Nils Gajsek<info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0.6
+ * @version   1.0.7
  * @link      http://www.linslin.org
  *
  */
@@ -191,6 +191,9 @@ class TestController extends Controller
  
 Changelog
 ------------
+##### Release 1.0.7 - Changelog
+- Fixed `getInfo([, int $opt = 0 ])` exception were cURL wasn't initialized before calling `getInfo($opt)`.
+
 ##### Release 1.0.6 - Changelog
 - Added `getInfo([, int $opt = 0 ])` method to retrieve http://php.net/manual/de/function.curl-getinfo.php data.
 
@@ -202,7 +205,6 @@ Changelog
 ##### Release 1.0.4 - Changelog
 - `CURLOPT_RETURNTRANSFER` is now set to true on default - https://github.com/linslin/Yii2-Curl/issues/18 
 - Readme.md adjustments.
-
 
 ##### Release 1.0.3 - Changelog
 - Fixed override of user options. https://github.com/linslin/Yii2-Curl/pull/7 
