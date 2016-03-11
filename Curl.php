@@ -47,6 +47,21 @@ class Curl
      */
     private $_options = array();
 
+    /**
+     * @var string|null HTTP Response Charset
+     * (taken from Content-type header)
+     */
+    public $responseCharset = null;
+    /**
+     * @var int HTTP Response Length
+     * (taken from Content-length header, or strlen() of downloaded content)
+     */
+    public $responseLength = -1;
+    /**
+     * @var string|null HTTP Response Content Type
+     * (taken from Content-type header)
+     */
+    public $responseType = null;
 
     /**
      * @var object
@@ -316,6 +331,19 @@ class Curl
         //retrieve response code
         $this->responseCode = curl_getinfo($this->_curl, CURLINFO_HTTP_CODE);
         $this->response = $body;
+
+        $length = curl_getinfo($this->_curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+        if((int)$length == -1)
+            $length = strlen($body);
+        $this->responseLength = $length;
+
+        $content_type = curl_getinfo($this->_curl, CURLINFO_CONTENT_TYPE);
+        if (!is_null($content_type)) {
+            list($this->responseType, $possible_charset) = explode(';', $content_type);
+            preg_match('~^charset=(.+?)$~', trim($possible_charset), $matches);
+            if (isset($matches[1]))
+                $this->responseCharset = strtolower($matches[1]);
+        }
 
         //end yii debug profile
         Yii::endProfile($method.' '.$url .'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
