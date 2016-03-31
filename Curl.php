@@ -64,7 +64,7 @@ class Curl
     public $responseType = null;
 
     /**
-     * @var object
+     * @var resource
      * Holds cURL-Handler
      */
     private $_curl = null;
@@ -232,6 +232,10 @@ class Curl
         $this->response = null;
         $this->responseCode = null;
 
+        $this->responseCharset = null;
+        $this->responseLength = -1;
+        $this->responseType = null;
+
         return $this;
     }
 
@@ -338,7 +342,7 @@ class Curl
         $this->responseLength = $length;
 
         $content_type = curl_getinfo($this->_curl, CURLINFO_CONTENT_TYPE);
-        if (!is_null($content_type)) {
+        if (!is_null($content_type) and strpos($content_type, ';') !== false) {
             list($this->responseType, $possible_charset) = explode(';', $content_type);
             preg_match('~^charset=(.+?)$~', trim($possible_charset), $matches);
             if (isset($matches[1]))
