@@ -191,6 +191,10 @@ class TestController extends Controller
  
 Changelog
 ------------
+##### Release 1.0.8 - Changelog
+- Added API method `setOptions([array])` which allows to setup multiple options at once. 
+- Fixed Issue https://github.com/linslin/Yii2-Curl/issues/30.
+
 ##### Release 1.0.7 - Changelog
 - Fixed `getInfo([, int $opt = 0 ])` exception were cURL wasn't initialized before calling `getInfo($opt)`.
 
@@ -212,7 +216,6 @@ Changelog
 - Moved `parent::init();` behavior into unitTest Controller.
 
 ##### Release 1.0.2 - Changelog
-
 - Added custom params support
 - Added custom status code support
 - Added POST-Param support and a readme example
@@ -220,11 +223,9 @@ Changelog
 - Readme modifications
 
 ##### Release 1.0.1 - Changelog
-
 - Removed widget support
 - Edited some spellings + added more examples into readme.md
 
 ##### Release 1.0 - Changelog
-
 - Official stable release
 

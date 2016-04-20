@@ -151,7 +151,7 @@ class Curl
     public function setOption($key, $value)
     {
         //set value
-        if (in_array($key, $this->_defaultOptions) && $key !== CURLOPT_WRITEFUNCTION) {
+        if (array_key_exists($key, $this->_defaultOptions) && $key !== CURLOPT_WRITEFUNCTION) {
             $this->_defaultOptions[$key] = $value;
         } else {
             $this->_options[$key] = $value;
