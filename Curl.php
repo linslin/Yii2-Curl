@@ -163,6 +163,21 @@ class Curl
 
 
     /**
+     * Set curl options
+     *
+     * @param array $options
+     *
+     * @return $this
+     */
+    public function setOptions($options)
+    {
+        $this->_options = $options + $this->_options;
+
+        return $this;
+    }
+
+
+    /**
      * Unset a single curl option
      *
      * @param string $key
@@ -257,7 +272,7 @@ class Curl
     {
         if ($this->_curl !== null && $opt === null) {
             return curl_getinfo($this->_curl);
-        } elseif ($this->_curl !== null && $opt !== null)  {
+        } elseif ($this->_curl !== null && $opt !== null) {
             return curl_getinfo($this->_curl, $opt);
         } else {
             return [];
@@ -301,14 +316,13 @@ class Curl
         //check if curl was successful
         if ($body === false) {
             switch (curl_errno($this->_curl)) {
-
                 case 7:
                     $this->responseCode = 'timeout';
                     return false;
                     break;
 
                 default:
-                    throw new Exception('curl request failed: ' . curl_error($this->_curl) , curl_errno($this->_curl));
+                    throw new Exception('curl request failed: ' . curl_error($this->_curl), curl_errno($this->_curl));
                     break;
             }
         }
