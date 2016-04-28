@@ -127,6 +127,20 @@ class Curl
 
 
     /**
+     * Start performing PATCH-HTTP-Request
+     *
+     * @param string  $url
+     * @param boolean $raw if response body contains JSON and should be decoded
+     *
+     * @return mixed response
+     */
+    public function patch($url, $raw = true)
+    {
+        return $this->_httpRequest('PATCH', $url, $raw);
+    }
+
+
+    /**
      * Start performing DELETE-HTTP-Request
      *
      * @param string  $url
