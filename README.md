@@ -6,6 +6,7 @@ Cool working curl extension for Yii2, including RESTful support:
  - GET
  - HEAD
  - PUT
+ - PATCH
  - DELETE
 
 Requirements
