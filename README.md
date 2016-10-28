@@ -41,7 +41,7 @@ Once the extension is installed, simply use it in your code. The following examp
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2015 Nils Gajsek<info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0.7
+ * @version   1.0.9
  * @link      http://www.linslin.org
  *
  */
@@ -186,12 +186,41 @@ class TestController extends Controller
                 break;
         }
     }
+    
+    
+    /**
+     * cURL error handling
+     */
+    public function actionHandleHostUknownExample()
+    {
+        //Init curl
+        $curl = new curl\Curl();
+
+        //get http://www.google.com:81/ -> timeout
+        $response = $curl->post('http://www.xyz-no-one-set.nope');
+
+        // List of curl error codes here https://curl.haxx.se/libcurl/c/libcurl-errors.html
+        switch ($curl->errorCode) {
+
+            case 6:
+                //host unkown example
+                break;
+        }
+    }
 }
 ```
 
  
 Changelog
 ------------
+##### Release 1.0.9 - Changelog
+- Added API attribute `responseCode` which holds the HTTP response code.
+- Added API attribute `responseCharset` which holds the response charset.
+- Added API attribute `responseCharset` which holds the response charset.
+- Added API attribute `errorCode` which holds the a integer code error like described here: https://curl.haxx.se/libcurl/c/libcurl-errors.html.
+- Fixed Issue https://github.com/linslin/Yii2-Curl/issues//36.
+- Fixed Issue https://github.com/linslin/Yii2-Curl/issues//37 and removed exception throwing on curl fail. This allow the user to handle the error while using attribute `errorCode`.
+
 ##### Release 1.0.8 - Changelog
 - Added API method `setOptions([array])` which allows to setup multiple options at once. 
 - Fixed Issue https://github.com/linslin/Yii2-Curl/issues/30.

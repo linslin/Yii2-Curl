@@ -8,7 +8,7 @@
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2015 Nils Gajsek<info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0.7
+ * @version   1.0.9
  * @link      http://www.linslin.org
  *
  */
@@ -25,15 +25,18 @@ use yii\web\HttpException;
  */
 class Curl
 {
-
     // ################################################ class vars // ################################################
-
 
     /**
      * @var string
      * Holds response data right after sending a request.
      */
     public $response = null;
+    /**
+     * @var null|integer
+     * Error code holder: https://curl.haxx.se/libcurl/c/libcurl-errors.html
+     */
+    public $errorCode = null;
 
     /**
      * @var integer HTTP-Status Code
@@ -42,18 +45,34 @@ class Curl
     public $responseCode = null;
 
     /**
+     * @var string|null HTTP Response Charset
+     * (taken from Content-type header)
+     */
+    public $responseCharset = null;
+
+    /**
+     * @var int HTTP Response Length
+     * (taken from Content-length header, or strlen() of downloaded content)
+     */
+    public $responseLength = -1;
+
+    /**
+     * @var string|null HTTP Response Content Type
+     * (taken from Content-type header)
+     */
+    public $responseType = null;
+
+    /**
      * @var array HTTP-Status Code
      * Custom options holder
      */
     private $_options = array();
 
-
     /**
-     * @var object
+     * @var resource|null
      * Holds cURL-Handler
      */
     private $_curl = null;
-
 
     /**
      * @var array default curl options
@@ -66,7 +85,6 @@ class Curl
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HEADER         => false,
     );
-
 
 
     // ############################################### class methods // ##############################################
@@ -241,10 +259,14 @@ class Curl
             $this->_options = array();
         }
 
-        //reset response & status code
+        //reset response & status params
         $this->_curl = null;
+        $this->errorCode = null;
         $this->response = null;
         $this->responseCode = null;
+        $this->responseCharset = null;
+        $this->responseLength = -1;
+        $this->responseType = null;
 
         return $this;
     }
@@ -280,7 +302,8 @@ class Curl
     /**
      * Get curl info according to http://php.net/manual/de/function.curl-getinfo.php
      *
-     * @return mixed
+     * @param null $opt
+     * @return array|mixed
      */
     public function getInfo($opt = null)
     {
@@ -325,25 +348,30 @@ class Curl
          */
         $this->_curl = curl_init($url);
         curl_setopt_array($this->_curl, $this->getOptions());
-        $body = curl_exec($this->_curl);
+        $this->response = curl_exec($this->_curl);
 
         //check if curl was successful
-        if ($body === false) {
-            switch (curl_errno($this->_curl)) {
+        if ($this->response === false) {
+
+            //set error code
+            $this->errorCode = curl_errno($this->_curl);
+
+            switch ($this->errorCode) {
+                // 7, 28 = timeout
                 case 7:
+                case 28:
                     $this->responseCode = 'timeout';
                     return false;
                     break;
 
                 default:
-                    throw new Exception('curl request failed: ' . curl_error($this->_curl), curl_errno($this->_curl));
+                    return false;
                     break;
             }
         }
 
-        //retrieve response code
-        $this->responseCode = curl_getinfo($this->_curl, CURLINFO_HTTP_CODE);
-        $this->response = $body;
+        // Extract additional curl params
+        $this->_extractAdditionalCurlParameter();
 
         //end yii debug profile
         Yii::endProfile($method.' '.$url .'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
@@ -354,6 +382,41 @@ class Curl
         } else {
             $this->response = $raw ? $this->response : Json::decode($this->response);
             return $this->response;
+        }
+    }
+
+
+    /**
+     * Extract additional curl params private class helper
+     */
+    private function _extractAdditionalCurlParameter () {
+
+        /**
+         * retrieve response code
+         */
+        $this->responseCode = curl_getinfo($this->_curl, CURLINFO_HTTP_CODE);
+
+        /**
+         * try extract response type & charset.
+         */
+        if (!is_null(curl_getinfo($this->_curl, CURLINFO_CONTENT_TYPE))) {
+
+            //extract response type
+            list($this->responseType, $possible_charset) = explode(';', curl_getinfo($this->_curl, CURLINFO_CONTENT_TYPE));
+
+            //extract charset
+            if (preg_match('~^charset=(.+?)$~', trim($possible_charset), $matches) && isset($matches[1])) {
+                $this->responseCharset = strtolower($matches[1]);
+            }
+        }
+
+        /**
+         * try extract response length
+         */
+        $this->responseLength = curl_getinfo($this->_curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+
+        if((int)$this->responseLength == -1)             {
+            $this->responseLength = strlen($this->response);
         }
     }
 }
