@@ -214,9 +214,9 @@ class TestController extends Controller
 Changelog
 ------------
 ##### Release 1.0.9 - Changelog
-- Added API attribute `responseCode` which holds the HTTP response code.
-- Added API attribute `responseCharset` which holds the response charset.
-- Added API attribute `responseCharset` which holds the response charset.
+- Added API attribute `responseCode [string|null]` which holds the HTTP response code.
+- Added API attribute `responseCharset [string|null]` which holds the response charset.
+- Added API attribute `responseLength [integer|null]` which holds the response length.
 - Added API attribute `errorCode` which holds the a integer code error like described here: https://curl.haxx.se/libcurl/c/libcurl-errors.html.
 - Fixed Issue https://github.com/linslin/Yii2-Curl/issues//36.
 - Fixed Issue https://github.com/linslin/Yii2-Curl/issues//37 and removed exception throwing on curl fail. This allow the user to handle the error while using attribute `errorCode`.
