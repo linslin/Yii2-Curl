@@ -8,7 +8,7 @@
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2015 Nils Gajsek<info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0.9
+ * @version   1.0.10
  * @link      http://www.linslin.org
  *
  */
@@ -396,19 +396,22 @@ class Curl
          */
         $this->responseCode = curl_getinfo($this->_curl, CURLINFO_HTTP_CODE);
 
+
         /**
          * try extract response type & charset.
          */
-        if (!is_null(curl_getinfo($this->_curl, CURLINFO_CONTENT_TYPE))) {
+        $this->responseType = curl_getinfo($this->_curl, CURLINFO_CONTENT_TYPE);
 
-            //extract response type
-            list($this->responseType, $possible_charset) = explode(';', curl_getinfo($this->_curl, CURLINFO_CONTENT_TYPE));
+        if (!is_null($this->responseType) && count(explode(';', $this->responseType)) > 1) {
+
+            list($this->responseType, $possibleCharset) = explode(';', $this->responseType);
 
             //extract charset
-            if (preg_match('~^charset=(.+?)$~', trim($possible_charset), $matches) && isset($matches[1])) {
+            if (preg_match('~^charset=(.+?)$~', trim($possibleCharset), $matches) && isset($matches[1])) {
                 $this->responseCharset = strtolower($matches[1]);
             }
         }
+
 
         /**
          * try extract response length
