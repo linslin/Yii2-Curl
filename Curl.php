@@ -340,8 +340,10 @@ class Curl
         }
 
         //setup error reporting and profiling
-        Yii::trace('Start sending cURL-Request: '.$url.'\n', __METHOD__);
-        Yii::beginProfile($method.' '.$url.'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
+        if (YII_DEBUG) {
+            Yii::trace('Start sending cURL-Request: '.$url.'\n', __METHOD__);
+            Yii::beginProfile($method.' '.$url.'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
+        }
 
         /**
          * proceed curl
@@ -374,7 +376,9 @@ class Curl
         $this->_extractAdditionalCurlParameter();
 
         //end yii debug profile
-        Yii::endProfile($method.' '.$url .'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
+        if (YII_DEBUG) {
+            Yii::endProfile($method.' '.$url .'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
+        }
 
         //check responseCode and return data/status
         if ($this->getOption(CURLOPT_CUSTOMREQUEST) === 'HEAD') {
