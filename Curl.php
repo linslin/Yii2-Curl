@@ -66,19 +66,19 @@ class Curl
      * @var array HTTP-Status Code
      * Custom options holder
      */
-    private $_options = array();
+    protected $_options = array();
 
     /**
      * @var resource|null
      * Holds cURL-Handler
      */
-    private $_curl = null;
+	protected $_curl = null;
 
     /**
      * @var array default curl options
      * Default curl options
      */
-    private $_defaultOptions = array(
+    protected $_defaultOptions = array(
         CURLOPT_USERAGENT      => 'Yii2-Curl-Agent',
         CURLOPT_TIMEOUT        => 30,
         CURLOPT_CONNECTTIMEOUT => 30,
@@ -328,7 +328,7 @@ class Curl
      *
      * @return mixed
      */
-    private function _httpRequest($method, $url, $raw = false)
+    protected function _httpRequest($method, $url, $raw = false)
     {
         //set request type and writer function
         $this->setOption(CURLOPT_CUSTOMREQUEST, strtoupper($method));
@@ -387,9 +387,9 @@ class Curl
 
 
     /**
-     * Extract additional curl params private class helper
+     * Extract additional curl params protected class helper
      */
-    private function _extractAdditionalCurlParameter () {
+    protected function _extractAdditionalCurlParameter () {
 
         /**
          * retrieve response code
