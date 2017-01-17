@@ -39,9 +39,9 @@ Once the extension is installed, simply use it in your code. The following examp
  * @category  Web-yii2-example
  * @package   yii2-curl-example
  * @author    Nils Gajsek <info@linslin.org>
- * @copyright 2013-2015 Nils Gajsek<info@linslin.org>
+ * @copyright 2013-2017 Nils Gajsek <info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0.10
+ * @version   1.0.11
  * @link      http://www.linslin.org
  *
  */
@@ -68,7 +68,7 @@ class TestController extends Controller
 
 
     /**
-     * cURL GET example
+     * cURL GET example and accessing response headers
      */
     public function actionGetExample()
     {
@@ -77,6 +77,7 @@ class TestController extends Controller
 
         //get http://example.com/
         $response = $curl->get('http://example.com/');
+        $responseHeaders = $curl->responseHeaders;
     }
 
 
@@ -213,6 +214,11 @@ class TestController extends Controller
  
 Changelog
 ------------
+##### Release 1.0.11 - Changelog
+- Added API attribute `responseHeaders [array|null]` which returns an array of all response headers. 
+- Changed `_defaultOptions[CURLOPT_HEADER]` to `true`.
+- Profile debugging is only active if constant `YII_DEBUG` is `true`.
+
 ##### Release 1.0.10 - Changelog
 - Fixed PHP notice https://github.com/linslin/Yii2-Curl/issues/39.
 
@@ -261,4 +267,3 @@ Changelog
 
 ##### Release 1.0 - Changelog
 - Official stable release
-

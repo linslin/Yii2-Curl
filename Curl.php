@@ -6,9 +6,9 @@
  * @category  Web-yii2
  * @package   yii2-curl
  * @author    Nils Gajsek <info@linslin.org>
- * @copyright 2013-2015 Nils Gajsek<info@linslin.org>
+ * @copyright 2013-2017 Nils Gajsek <info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0.10
+ * @version   1.0.11
  * @link      http://www.linslin.org
  *
  */
@@ -63,10 +63,16 @@ class Curl
     public $responseType = null;
 
     /**
+     * @var array|null HTTP Response headers
+     * Lists response header in an array if CURLOPT_HEADER is set to true.
+     */
+    public $responseHeaders = null;
+
+    /**
      * @var array HTTP-Status Code
      * Custom options holder
      */
-    private $_options = array();
+    private $_options = [];
 
     /**
      * @var resource|null
@@ -78,13 +84,13 @@ class Curl
      * @var array default curl options
      * Default curl options
      */
-    private $_defaultOptions = array(
+    private $_defaultOptions = [
         CURLOPT_USERAGENT      => 'Yii2-Curl-Agent',
         CURLOPT_TIMEOUT        => 30,
         CURLOPT_CONNECTTIMEOUT => 30,
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HEADER         => false,
-    );
+        CURLOPT_HEADER         => true,
+    ];
 
 
     // ############################################### class methods // ##############################################
@@ -236,7 +242,7 @@ class Curl
     {
         //reset all options
         if (isset($this->_options)) {
-            $this->_options = array();
+            $this->_options = [];
         }
 
         return $this;
@@ -256,7 +262,7 @@ class Curl
 
         //reset all options
         if (isset($this->_options)) {
-            $this->_options = array();
+            $this->_options = [];
         }
 
         //reset response & status params
@@ -340,18 +346,21 @@ class Curl
         }
 
         //setup error reporting and profiling
-        Yii::trace('Start sending cURL-Request: '.$url.'\n', __METHOD__);
-        Yii::beginProfile($method.' '.$url.'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
+        if (YII_DEBUG) {
+            Yii::trace('Start sending cURL-Request: '.$url.'\n', __METHOD__);
+            Yii::beginProfile($method.' '.$url.'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
+        }
 
         /**
          * proceed curl
          */
+        $curlOptions =  $this->getOptions();
         $this->_curl = curl_init($url);
-        curl_setopt_array($this->_curl, $this->getOptions());
-        $this->response = curl_exec($this->_curl);
+        curl_setopt_array($this->_curl, $curlOptions);
+        $response = curl_exec($this->_curl);
 
         //check if curl was successful
-        if ($this->response === false) {
+        if ($response === false) {
 
             //set error code
             $this->errorCode = curl_errno($this->_curl);
@@ -370,11 +379,21 @@ class Curl
             }
         }
 
+        //extract header / body data if CURLOPT_HEADER are set to true
+        if (isset($curlOptions[CURLOPT_HEADER]) && $curlOptions[CURLOPT_HEADER]) {
+            $this->response = $this->_extractCurlBody($response);
+            $this->responseHeaders = $this->_extractCurlHeaders($response);
+        } else {
+            $this->response = $response;
+        }
+
         // Extract additional curl params
         $this->_extractAdditionalCurlParameter();
 
         //end yii debug profile
-        Yii::endProfile($method.' '.$url .'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
+        if (YII_DEBUG) {
+            Yii::endProfile($method.' '.$url .'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
+        }
 
         //check responseCode and return data/status
         if ($this->getOption(CURLOPT_CUSTOMREQUEST) === 'HEAD') {
@@ -389,7 +408,8 @@ class Curl
     /**
      * Extract additional curl params private class helper
      */
-    private function _extractAdditionalCurlParameter () {
+    private function _extractAdditionalCurlParameter ()
+    {
 
         /**
          * retrieve response code
@@ -418,8 +438,45 @@ class Curl
          */
         $this->responseLength = curl_getinfo($this->_curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
 
-        if((int)$this->responseLength == -1)             {
+        if((int)$this->responseLength == -1) {
             $this->responseLength = strlen($this->response);
         }
+    }
+
+
+    /**
+     * Extract body curl data from response
+     *
+     * @param string $response
+     * @return string
+     */
+    private function _extractCurlBody ($response)
+    {
+        return substr($response, $this->getInfo(CURLINFO_HEADER_SIZE));
+    }
+
+
+    /**
+     * Extract header curl data from response
+     *
+     * @param string $response
+     * @return array
+     */
+    private function _extractCurlHeaders ($response)
+    {
+        //Init
+        $headers = [];
+        $headerText = substr($response, 0, strpos($response, "\r\n\r\n"));
+
+        foreach (explode("\r\n", $headerText) as $i => $line) {
+            if ($i === 0) {
+                $headers['http_code'] = $line;
+            } else {
+                list ($key, $value) = explode(': ', $line);
+                $headers[$key] = $value;
+            }
+        }
+
+        return $headers;
     }
 }
