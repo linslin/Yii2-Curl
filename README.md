@@ -41,7 +41,7 @@ Once the extension is installed, simply use it in your code. The following examp
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2017 Nils Gajsek <info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.0.11
+ * @version   1.1.0
  * @link      http://www.linslin.org
  *
  */
@@ -214,6 +214,10 @@ class TestController extends Controller
  
 Changelog
 ------------
+##### Release 1.1.0 - Changelog
+- Fixed header explode https://github.com/linslin/Yii2-Curl/pull/51.
+- Allow PHP class goodness https://github.com/linslin/Yii2-Curl/issues/52.
+
 ##### Release 1.0.11 - Changelog
 - Added API attribute `responseHeaders [array|null]` which returns an array of all response headers. 
 - Changed `_defaultOptions[CURLOPT_HEADER]` to `true`.
