@@ -472,8 +472,8 @@ class Curl
             if ($i === 0) {
                 $headers['http_code'] = $line;
             } else {
-                list ($key, $value) = explode(': ', $line);
-                $headers[$key] = $value;
+                list ($key, $value) = explode(':', $line);
+                $headers[$key] = ltrim($value);
             }
         }
 
