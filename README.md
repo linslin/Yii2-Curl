@@ -204,7 +204,7 @@ class TestController extends Controller
         switch ($curl->errorCode) {
 
             case 6:
-                //host unkown example
+                //host unknown example
                 break;
         }
     }
@@ -215,8 +215,9 @@ class TestController extends Controller
 Changelog
 ------------
 ##### Release 1.1.0 - Changelog
-- Fixed header explode https://github.com/linslin/Yii2-Curl/pull/51.
-- Allow PHP class goodness https://github.com/linslin/Yii2-Curl/issues/52.
+- Fixed header explode - https://github.com/linslin/Yii2-Curl/pull/51.
+- Allow PHP class goodness - https://github.com/linslin/Yii2-Curl/issues/52.
+- Added API attribute `errorText [string|null]` - holds a string describing the given error code - https://github.com/linslin/Yii2-Curl/issues/49.
 
 ##### Release 1.0.11 - Changelog
 - Added API attribute `responseHeaders [array|null]` which returns an array of all response headers. 

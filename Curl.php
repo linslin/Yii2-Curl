@@ -39,6 +39,12 @@ class Curl
     public $errorCode = null;
 
     /**
+     * @var null|string
+     * Error text holder: http://php.net/manual/en/function.curl-strerror.php
+     */
+    public $errorText = null;
+
+    /**
      * @var integer HTTP-Status Code
      * This value will hold HTTP-Status Code. False if request was not successful.
      */
@@ -273,6 +279,7 @@ class Curl
         $this->responseCharset = null;
         $this->responseLength = -1;
         $this->responseType = null;
+        $this->errorText = null;
 
         return $this;
     }
@@ -364,6 +371,7 @@ class Curl
 
             //set error code
             $this->errorCode = curl_errno($this->_curl);
+            $this->errorText = curl_strerror($this->errorCode);
 
             switch ($this->errorCode) {
                 // 7, 28 = timeout
