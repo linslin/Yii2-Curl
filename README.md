@@ -43,7 +43,7 @@ $curl = new curl\Curl();
 $response = $curl->get('http://example.com/');
 $responseHeaders = $curl->responseHeaders;
 
-if ($curl->errorCode !== null) {#
+if ($curl->errorCode !== null) {
      // List of curl error codes here https://curl.haxx.se/libcurl/c/libcurl-errors.html
     switch ($curl->errorCode) {
     
@@ -110,7 +110,7 @@ $response = $curl->setRequestBody(json_encode($params))
 ```
 
 ```php
-// Avanced GET with curl options
+// Avanced POST request with curl options & error handling
 $curl = new curl\Curl();
 
 $params = [
@@ -120,7 +120,7 @@ $params = [
 
 $response = $curl->setRequestBody(json_encode($params))
      ->setOption(CURLOPT_ENCODING, 'gzip')
-     ->get('http://example.com/');
+     ->post('http://example.com/');
      
 // List of status codes here http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 switch ($curl->responseCode) {
