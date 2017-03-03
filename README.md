@@ -41,9 +41,10 @@ $curl = new curl\Curl();
 
 //get http://example.com/
 $response = $curl->get('http://example.com/');
-$responseHeaders = $curl->responseHeaders;
 
-if ($curl->errorCode !== null) {
+if ($curl->errorCode === null) {
+   echo $response;
+} else {
      // List of curl error codes here https://curl.haxx.se/libcurl/c/libcurl-errors.html
     switch ($curl->errorCode) {
     
@@ -51,8 +52,6 @@ if ($curl->errorCode !== null) {
             //host unknown example
             break;
     }
-} else {
-   echo $response;
 } 
 ```
 
