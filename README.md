@@ -36,192 +36,125 @@ Usage
 Once the extension is installed, simply use it in your code. The following example shows you how to handling a simple GET Request. 
 
 ```php
-<?php
-/**
- * Yii2 test controller
- *
- * @category  Web-yii2-example
- * @package   yii2-curl-example
- * @author    Nils Gajsek <info@linslin.org>
- * @copyright 2013-2017 Nils Gajsek <info@linslin.org>
- * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.1.0
- * @link      http://www.linslin.org
- *
- */
-
-namespace app\controllers;
-
-use yii\web\Controller;
 use linslin\yii2\curl;
+$curl = new curl\Curl();
 
-class TestController extends Controller
-{
+//get http://example.com/
+$response = $curl->get('http://example.com/');
+$responseHeaders = $curl->responseHeaders;
 
-    /**
-     * Yii action controller
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-        ];
-    }
-
-
-    /**
-     * cURL GET example and accessing response headers
-     */
-    public function actionGetExample()
-    {
-        //Init curl
-        $curl = new curl\Curl();
-
-        //get http://example.com/
-        $response = $curl->get('http://example.com/');
-        $responseHeaders = $curl->responseHeaders;
-    }
-
-
-    /**
-     * cURL POST example with post body params.
-     */
-    public function actionPostExample()
-    {
-        //Init curl
-        $curl = new curl\Curl();
-
-        //post http://example.com/
-        $response = $curl->setOption(
-                CURLOPT_POSTFIELDS, 
-                http_build_query(array(
-                    'myPostField' => 'value'
-                )
-            ))
-            ->post('http://example.com/');
-    }
-
-
-    /**
-     * cURL multiple POST example one after one
-     */
-    public function actionMultipleRequest()
-    {
-        //Init curl
-        $curl = new curl\Curl();
-
-
-        //post http://example.com/
-        $response = $curl->setOption(
-            CURLOPT_POSTFIELDS, 
-            http_build_query(array(
-                'myPostField' => 'value'
-                )
-            ))
-            ->post('http://example.com/');
-
-
-        //post http://example.com/, reset request before
-        $response = $curl->reset()
-            ->setOption(
-                CURLOPT_POSTFIELDS, 
-                http_build_query(array(
-                    'myPostField' => 'value'
-                )
-            ))
-            ->post('http://example.com/');
-    }
-
-
-    /**
-     * cURL advanced GET example with HTTP status codes
-     */
-    public function actionGetAdvancedExample()
-    {
-        //Init curl
-        $curl = new curl\Curl();
-
-        //get http://example.com/
-        $response = $curl->post('http://example.com/');
-
-        // List of status codes here http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
-        switch ($curl->responseCode) {
-
-            case 'timeout':
-                //timeout error logic here
-                break;
-                
-            case 200:
-                //success logic here
-                break;
-
-            case 404:
-                //404 Error logic here
-                break;
-        }
-    }
+if ($curl->errorCode !== null) {#
+     // List of curl error codes here https://curl.haxx.se/libcurl/c/libcurl-errors.html
+    switch ($curl->errorCode) {
     
-    
-    /**
-     * cURL timeout chaining/handling
-     */
-    public function actionHandleTimeoutExample()
-    {
-        //Init curl
-        $curl = new curl\Curl();
-
-        //get http://www.google.com:81/ -> timeout
-        $response = $curl->post('http://www.google.com:81/');
-
-        // List of status codes here http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
-        switch ($curl->responseCode) {
-
-            case 'timeout':
-                //timeout error logic here
-                break;
-                
-            case 200:
-                //success logic here
-                break;
-
-            case 404:
-                //404 Error logic here
-                break;
-        }
+        case 6:
+            //host unknown example
+            break;
     }
-    
-    
-    /**
-     * cURL error handling
-     */
-    public function actionHandleHostUknownExample()
-    {
-        //Init curl
-        $curl = new curl\Curl();
+} else {
+   echo $response;
+} 
+```
 
-        //get http://www.google.com:81/ -> timeout
-        $response = $curl->post('http://www.xyz-no-one-set.nope');
+```php
+// GET request with GET params
+// http://example.com/?key=value&scondKey=secondValue
+$curl = new curl\Curl();
+$response = $curl->setGetParams([
+        'key' => 'value',
+        'secondKey' => 'secondValue'
+     ])
+     ->get('http://example.com/');
+```
 
-        // List of curl error codes here https://curl.haxx.se/libcurl/c/libcurl-errors.html
-        switch ($curl->errorCode) {
 
-            case 6:
-                //host unknown example
-                break;
-        }
-    }
+```php
+// POST URL form-urlencoded 
+$curl = new curl\Curl();
+$response = $curl->setPostParams([
+        'key' => 'value',
+        'secondKey' => 'secondValue'
+     ])
+     ->post('http://example.com/');
+```
+
+```php
+// POST with special headers
+$curl = new curl\Curl();
+$response = $curl->setPostParams([
+        'key' => 'value',
+        'secondKey' => 'secondValue'
+     ])
+     ->setHeaders([
+        'Custom-Header' => 'user-b'
+     ])
+     ->post('http://example.com/');
+```
+
+
+```php
+// POST JSON with body string & special headers
+$curl = new curl\Curl();
+
+$params = [
+    'key' => 'value',
+    'secondKey' => 'secondValue'
+];
+
+$response = $curl->setRequestBody(json_encode($params))
+     ->setHeaders([
+        'Content-Type' => 'application/json',
+        'Content-Length' => strlen(json_encode($params))
+     ])
+     ->post('http://example.com/');
+```
+
+```php
+// Avanced GET with curl options
+$curl = new curl\Curl();
+
+$params = [
+    'key' => 'value',
+    'secondKey' => 'secondValue'
+];
+
+$response = $curl->setRequestBody(json_encode($params))
+     ->setOption(CURLOPT_ENCODING, 'gzip')
+     ->get('http://example.com/');
+     
+// List of status codes here http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+switch ($curl->responseCode) {
+
+    case 'timeout':
+        //timeout error logic here
+        break;
+        
+    case 200:
+        //success logic here
+        break;
+
+    case 404:
+        //404 Error logic here
+        break;
 }
+
+//list response headers
+var_dump($curl->responseHeaders);
 ```
 
  
 Changelog
 ------------
 ##### Release 1.1.0 - Changelog
-- Fixed header explode - https://github.com/linslin/Yii2-Curl/pull/51.
-- Allow PHP class goodness - https://github.com/linslin/Yii2-Curl/issues/52.
+- Added `setHeaders() [array]` helper.
+- Added `setPostParams() [array]` helper.
+- Added `setGetParams() [array]` helper.
+- Added `setRequestBody() [string]` helper.
+- Added `getUrl()` helper.
 - Added API attribute `errorText [string|null]` - holds a string describing the given error code - https://github.com/linslin/Yii2-Curl/issues/49.
+- Added functionTests to ensure stability.
+- Allow PHP class goodness - https://github.com/linslin/Yii2-Curl/issues/52.
+- Fixed header explode - https://github.com/linslin/Yii2-Curl/pull/51.
 
 ##### Release 1.0.11 - Changelog
 - Added API attribute `responseHeaders [array|null]` which returns an array of all response headers. 

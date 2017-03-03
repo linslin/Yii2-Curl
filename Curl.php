@@ -81,10 +81,28 @@ class Curl
     protected $_options = [];
 
     /**
+     * @var array
+     * Hold array of get params to send with the request
+     */
+    protected $_getParams = [];
+
+    /**
+     * @var array
+     * Hold array of post params to send with the request
+     */
+    protected $_postParams = [];
+
+    /**
      * @var resource|null
      * Holds cURL-Handler
      */
     protected $_curl = null;
+
+    /**
+     * @var string
+     * hold base URL
+     */
+    protected $_baseUrl = '';
 
     /**
      * @var array default curl options
@@ -111,6 +129,7 @@ class Curl
      */
     public function get($url, $raw = true)
     {
+        $this->_baseUrl = $url;
         return $this->_httpRequest('GET', $url, $raw);
     }
 
@@ -124,7 +143,8 @@ class Curl
      */
     public function head($url)
     {
-        return $this->_httpRequest('HEAD', $url);
+        $this->_baseUrl = $url;
+        return $this->_httpRequest('HEAD');
     }
 
 
@@ -138,7 +158,8 @@ class Curl
      */
     public function post($url, $raw = true)
     {
-        return $this->_httpRequest('POST', $url, $raw);
+        $this->_baseUrl = $url;
+        return $this->_httpRequest('POST', $raw);
     }
 
 
@@ -152,7 +173,8 @@ class Curl
      */
     public function put($url, $raw = true)
     {
-        return $this->_httpRequest('PUT', $url, $raw);
+        $this->_baseUrl = $url;
+        return $this->_httpRequest('PUT', $raw);
     }
 
 
@@ -166,7 +188,8 @@ class Curl
      */
     public function patch($url, $raw = true)
     {
-        return $this->_httpRequest('PATCH', $url, $raw);
+        $this->_baseUrl = $url;
+        return $this->_httpRequest('PATCH',$raw);
     }
 
 
@@ -180,7 +203,8 @@ class Curl
      */
     public function delete($url, $raw = true)
     {
-        return $this->_httpRequest('DELETE', $url, $raw);
+        $this->_baseUrl = $url;
+        return $this->_httpRequest('DELETE', $raw);
     }
 
 
@@ -207,6 +231,80 @@ class Curl
 
 
     /**
+     * Set get params
+     *
+     * @param array $params
+     * @return $this
+     */
+    public function setGetParams($params)
+    {
+        if (is_array($params)) {
+            foreach ($params as $key => $value) {
+                $this->_getParams[$key] = $value;
+            }
+        }
+
+        //return self
+        return $this;
+    }
+
+
+    /**
+     * Set get params
+     *
+     * @param array $params
+     * @return $this
+     */
+    public function setPostParams($params)
+    {
+        if (is_array($params)) {
+            $this->setOption(
+                CURLOPT_POSTFIELDS,
+                http_build_query($params)
+            );
+        }
+
+        //return self
+        return $this;
+    }
+
+
+    /**
+     * Set get params
+     *
+     * @param string $data
+     * @return $this
+     */
+    public function setRequestBody($data)
+    {
+        if (is_string($data)) {
+            $this->setOption(
+                CURLOPT_POSTFIELDS,
+                $data
+            );
+        }
+
+        //return self
+        return $this;
+    }
+
+
+    /**
+     * Get URL - return URL parsed with given params
+     *
+     * @return string The full URL with parsed get params
+     */
+    public function getUrl()
+    {
+        if (Count($this->_getParams) > 0) {
+            return $this->_baseUrl.'?'.http_build_query($this->_getParams);
+        } else {
+            return $this->_baseUrl;
+        }
+    }
+
+
+    /**
      * Set curl options
      *
      * @param array $options
@@ -216,6 +314,36 @@ class Curl
     public function setOptions($options)
     {
         $this->_options = $options + $this->_options;
+
+        return $this;
+    }
+
+
+    /**
+     * Set header for request
+     *
+     * @param array $headers
+     *
+     * @return $this
+     */
+    public function setHeaders($headers)
+    {
+        if (is_array($headers)) {
+
+            //init
+            $parsedHeader = [];
+
+            //parse header into right format key:value
+            foreach ($headers as $header => $value) {
+                array_push($parsedHeader, $header.':'.$value);
+            }
+
+            //set headers
+            $this->setOption(
+                CURLOPT_HTTPHEADER,
+                $parsedHeader
+            );
+        }
 
         return $this;
     }
@@ -280,6 +408,8 @@ class Curl
         $this->responseLength = -1;
         $this->responseType = null;
         $this->errorText = null;
+        $this->_postParams = [];
+        $this->_getParams = [];
 
         return $this;
     }
@@ -334,14 +464,13 @@ class Curl
      * Performs HTTP request
      *
      * @param string  $method
-     * @param string  $url
      * @param boolean $raw if response body contains JSON and should be decoded -> helper.
      *
      * @throws Exception if request failed
      *
      * @return mixed
      */
-    protected function _httpRequest($method, $url, $raw = false)
+    protected function _httpRequest($method, $raw = false)
     {
         //set request type and writer function
         $this->setOption(CURLOPT_CUSTOMREQUEST, strtoupper($method));
@@ -354,15 +483,15 @@ class Curl
 
         //setup error reporting and profiling
         if (YII_DEBUG) {
-            Yii::trace('Start sending cURL-Request: '.$url.'\n', __METHOD__);
-            Yii::beginProfile($method.' '.$url.'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
+            Yii::trace('Start sending cURL-Request: '.$this->getUrl().'\n', __METHOD__);
+            Yii::beginProfile($method.' '.$this->_baseUrl.'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
         }
 
         /**
          * proceed curl
          */
         $curlOptions =  $this->getOptions();
-        $this->_curl = curl_init($url);
+        $this->_curl = curl_init($this->getUrl());
         curl_setopt_array($this->_curl, $curlOptions);
         $response = curl_exec($this->_curl);
 
@@ -400,7 +529,7 @@ class Curl
 
         //end yii debug profile
         if (YII_DEBUG) {
-            Yii::endProfile($method.' '.$url .'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
+            Yii::endProfile($method.' '.$this->getUrl().'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
         }
 
         //check responseCode and return data/status
