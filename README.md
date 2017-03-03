@@ -1,6 +1,10 @@
 yii2-curl extension
 ===================
-Cool working curl extension for Yii2, including RESTful support:
+Easy working cURL extension for Yii2, including RESTful support:
+
+[![Latest Stable Version](https://poser.pugx.org/linslin/yii2-curl/v/stable)](https://packagist.org/packages/linslin/yii2-curl)
+[![Total Downloads](https://poser.pugx.org/linslin/yii2-curl/downloads)](https://packagist.org/packages/linslin/yii2-curl)
+[![License](https://poser.pugx.org/linslin/yii2-curl/license)](https://packagist.org/packages/linslin/yii2-curl)
 
  - POST
  - GET
