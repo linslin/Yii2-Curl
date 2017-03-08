@@ -214,4 +214,53 @@ class httpMockCest
             ->post($this->_endPoint.'/test/params/post');
         $I->assertEquals($this->_curl->responseCode, 200);
     }
+
+    /**
+     * Get JSON response test
+     * @param \AcceptanceTester $I
+     */
+    public function getWithDecodedJsonResponseTest(\AcceptanceTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+            $expectation = Phiremock::on(
+                A::getRequest()->andUrl(Is::equalTo('/test/params/get/json'))
+            )->then(
+                Respond::withStatusCode(200)
+                    ->andBody('{"id": 1, "description": "I am a resource"}')
+            )
+        );
+
+        $jsonResponse = $this->_curl->get($this->_endPoint . '/test/params/get/json', false);
+        $I->assertEquals($this->_curl->responseCode, 200);
+        $I->assertArrayHasKey('id', $jsonResponse);
+        $I->assertArrayHasKey('description', $jsonResponse);
+        $I->assertEquals($jsonResponse['id'], 1);
+        $I->assertEquals($jsonResponse['description'], 'I am a resource');
+    }
+
+    /**
+     * Get JSON response test
+     * @param \AcceptanceTester $I
+     */
+    public function getWithRawJsonResponseTest(\AcceptanceTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+            $expectation = Phiremock::on(
+                A::getRequest()->andUrl(Is::equalTo('/test/params/get/json'))
+            )->then(
+                Respond::withStatusCode(200)
+                    ->andBody('{"id": 1, "description": "I am a resource"}')
+            )
+        );
+
+        $rawResponse = $this->_curl->get($this->_endPoint . '/test/params/get/json', true);
+        $I->assertEquals($this->_curl->responseCode, 200);
+        $I->assertEquals($rawResponse, '{"id": 1, "description": "I am a resource"}');
+    }
 }
