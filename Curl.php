@@ -8,7 +8,7 @@
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2017 Nils Gajsek <info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.1.0
+ * @version   1.1.1
  * @link      http://www.linslin.org
  *
  */
@@ -130,7 +130,7 @@ class Curl
     public function get($url, $raw = true)
     {
         $this->_baseUrl = $url;
-        return $this->_httpRequest('GET', $url, $raw);
+        return $this->_httpRequest('GET', $raw);
     }
 
 

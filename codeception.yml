@@ -16,8 +16,7 @@ extensions:
     config:
         Codeception\Extension\Phiremock:
             listen: 127.0.0.1:18080 # defaults to 0.0.0.0:8086
-            bin_path: ..\vendor\bin # defaults to codeception_dir/../vendor/bin
-            logs_path: /var/log/my_app/tests/logs # defaults to codeception's tests output dir
+            bin_path: vendor/bin # defaults to codeception_dir/../vendor/bin
             debug: true # defaults to false
             startDelay: 1 # default to 0
 modules:
