@@ -144,6 +144,10 @@ var_dump($curl->responseHeaders);
  
 Changelog
 ------------
+##### Release 1.1.1 - Changelog
+- Fixed wrong parameter parsing into `_httpRequest()` (thanks to yemexx1)
+- Added JSON decode functions tests (thanks to yemexx1)
+
 ##### Release 1.1.0 - Changelog
 - Added `setHeaders() [array]` helper.
 - Added `setPostParams() [array]` helper.

@@ -32,6 +32,7 @@ class Curl
      * Holds response data right after sending a request.
      */
     public $response = null;
+
     /**
      * @var null|integer
      * Error code holder: https://curl.haxx.se/libcurl/c/libcurl-errors.html

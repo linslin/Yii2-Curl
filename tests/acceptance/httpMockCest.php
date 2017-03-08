@@ -148,7 +148,6 @@ class httpMockCest
     }
 
 
-
     /**
      * Try set post param with header modification
      * @param \AcceptanceTester $I
@@ -179,7 +178,6 @@ class httpMockCest
             ->post($this->_endPoint.'/test/params/post');
         $I->assertEquals($this->_curl->responseCode, 200);
     }
-
 
 
     /**
@@ -215,6 +213,7 @@ class httpMockCest
         $I->assertEquals($this->_curl->responseCode, 200);
     }
 
+
     /**
      * Get JSON response test
      * @param \AcceptanceTester $I
@@ -240,6 +239,7 @@ class httpMockCest
         $I->assertEquals($jsonResponse['id'], 1);
         $I->assertEquals($jsonResponse['description'], 'I am a resource');
     }
+
 
     /**
      * Get JSON response test
