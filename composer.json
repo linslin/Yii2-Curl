@@ -19,7 +19,7 @@
         "codeception/verify": "~0.3.1",
         "codeception/specify": "~0.4.3",
         "guzzlehttp/guzzle": ">=4.1.4 <7.0",
-        "mcustiel/phiremock-codeception-extension": "*"
+        "mcustiel/phiremock-codeception-extension": "1.2.4"
     },
     "autoload": {
         "psr-4": {

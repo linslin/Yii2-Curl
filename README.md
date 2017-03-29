@@ -145,6 +145,9 @@ var_dump($curl->responseHeaders);
 Changelog
 ------------
 ##### Release 1.1.1 - Changelog
+- Fixed https://github.com/linslin/Yii2-Curl/issues/57
+
+##### Release 1.1.1 - Changelog
 - Fixed wrong parameter parsing into `_httpRequest()` (thanks to yemexx1)
 - Added JSON decode functions tests (thanks to yemexx1)
 
