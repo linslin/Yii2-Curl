@@ -8,7 +8,7 @@
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2017 Nils Gajsek <info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.1.1
+ * @version   1.1.2
  * @link      http://www.linslin.org
  *
  */
@@ -610,7 +610,7 @@ class Curl
             if ($i === 0) {
                 $headers['http_code'] = $line;
             } else {
-                list ($key, $value) = explode(':', $line);
+                list ($key, $value) = explode(':', $line, 2);
                 $headers[$key] = ltrim($value);
             }
         }

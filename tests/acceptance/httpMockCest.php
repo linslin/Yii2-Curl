@@ -27,9 +27,9 @@ class httpMockCest
 
     /**
      * Cleanup
-     * @param AcceptanceTester $I
+     * @param \AcceptanceTester $I
      */
-    public function _before(AcceptanceTester $I)
+    public function _before(\AcceptanceTester $I)
     {
         $I->haveACleanSetupInRemoteService();
 
@@ -262,5 +262,35 @@ class httpMockCest
         $rawResponse = $this->_curl->get($this->_endPoint . '/test/params/get/json', true);
         $I->assertEquals($this->_curl->responseCode, 200);
         $I->assertEquals($rawResponse, '{"id": 1, "description": "I am a resource"}');
+    }
+
+
+    /**
+     * Get header params with special header separators in values
+     *
+     * @issue https://github.com/linslin/Yii2-Curl/issues/59
+     * @param \AcceptanceTester $I
+     */
+    public function getHeaderParamWithSpecialHeaderSeparatorInValue (\AcceptanceTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+
+            Phiremock::on(
+                A::getRequest()->andUrl(Is::equalTo('/test/header'))
+            )->then(
+                Respond::withStatusCode(200)
+                    ->andHeader('param', 'value')
+                    ->andHeader('location', 'http://somelocation/')
+            )
+        );
+
+        $this->_curl->get($this->_endPoint.'/test/header');
+
+        $I->assertEquals($this->_curl->responseCode, 200);
+        $I->assertEquals($this->_curl->responseHeaders['location'], 'http://somelocation/');
+        $I->assertEquals($this->_curl->responseHeaders['param'], 'value');
     }
 }
