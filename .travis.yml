@@ -3,6 +3,10 @@ php:
   - '5.6'
   - '7.0'
   - '7.1'
+branches:
+  only:
+  - master
+  - develop
 install:
   - composer install
 script:
