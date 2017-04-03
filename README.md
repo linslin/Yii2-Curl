@@ -1,7 +1,7 @@
 yii2-curl extension
 ===================
 [![Latest Stable Version](https://poser.pugx.org/linslin/yii2-curl/v/stable)](https://packagist.org/packages/linslin/yii2-curl)
-[![Latest Master Build](https://api.travis-ci.org/linslin/Yii2-Curl.svg?branch=master)](https://api.travis-ci.org/linslin/Yii2-Curl.svg?branch=master)
+[![Latest Master Build](https://api.travis-ci.org/linslin/Yii2-Curl.svg?branch=master)](https://travis-ci.org/linslin/Yii2-Curl/builds)
 [![Total Downloads](https://poser.pugx.org/linslin/yii2-curl/downloads)](https://packagist.org/packages/linslin/yii2-curl)
 [![License](https://poser.pugx.org/linslin/yii2-curl/license)](https://packagist.org/packages/linslin/yii2-curl)
                    
