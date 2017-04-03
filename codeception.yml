@@ -5,6 +5,8 @@ paths:
     data: tests/_data
     support: tests/_support
     envs: tests/_envs
+coverage:
+    enabled: true
 settings:
     bootstrap: _bootstrap.php
     colors: false
