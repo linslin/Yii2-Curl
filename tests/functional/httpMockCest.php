@@ -42,7 +42,7 @@ class httpMockCest
      * Simple HTTP ok
      * @param \FunctionalTester $I
      */
-    public function simpleHttpOkTest (\FunctionalTester $I)
+    public function simpleHttpOkTest(\FunctionalTester $I)
     {
         $I->expectARequestToRemoteServiceWithAResponse(
             Phiremock::on(
@@ -52,7 +52,7 @@ class httpMockCest
             )
         );
 
-        $this->_curl->get($this->_endPoint.'/test/httpStatus/200');
+        $this->_curl->get($this->_endPoint . '/test/httpStatus/200');
         $I->assertEquals($this->_curl->responseCode, 200);
     }
 
@@ -61,7 +61,7 @@ class httpMockCest
      * Try set params to send with get request
      * @param \FunctionalTester $I
      */
-    public function setGetParamsTest (\FunctionalTester $I)
+    public function setGetParamsTest(\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();
@@ -72,17 +72,17 @@ class httpMockCest
 
         $I->expectARequestToRemoteServiceWithAResponse(
             Phiremock::on(
-                A::getRequest()->andUrl(Is::equalTo('/test/params/get?'.http_build_query($params)))
+                A::getRequest()->andUrl(Is::equalTo('/test/params/get?' . http_build_query($params)))
             )->then(
                 Respond::withStatusCode(200)
             )
         );
 
         $this->_curl->setGetParams($params)
-            ->get($this->_endPoint.'/test/params/get');
+            ->get($this->_endPoint . '/test/params/get');
 
         $I->assertEquals($this->_curl->responseCode, 200);
-        $I->assertEquals($this->_curl->getUrl(), $this->_endPoint.'/test/params/get?'.http_build_query($params));
+        $I->assertEquals($this->_curl->getUrl(), $this->_endPoint . '/test/params/get?' . http_build_query($params));
     }
 
 
@@ -90,7 +90,7 @@ class httpMockCest
      * Try set post to send with post request
      * @param \FunctionalTester $I
      */
-    public function setPostParamsTest (\FunctionalTester $I)
+    public function setPostParamsTest(\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();
@@ -111,7 +111,7 @@ class httpMockCest
         );
 
         $this->_curl->setPostParams($params)
-            ->post($this->_endPoint.'/test/params/post');
+            ->post($this->_endPoint . '/test/params/post');
         $I->assertEquals($this->_curl->responseCode, 200);
     }
 
@@ -120,7 +120,7 @@ class httpMockCest
      * Try set post to send with post request
      * @param \FunctionalTester $I
      */
-    public function setPostParamsOptionTest (\FunctionalTester $I)
+    public function setPostParamsOptionTest(\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();
@@ -143,7 +143,7 @@ class httpMockCest
         $this->_curl->setOption(
             CURLOPT_POSTFIELDS,
             http_build_query($params))
-            ->post($this->_endPoint.'/test/params/post');
+            ->post($this->_endPoint . '/test/params/post');
         $I->assertEquals($this->_curl->responseCode, 200);
     }
 
@@ -152,7 +152,7 @@ class httpMockCest
      * Try set post param with header modification
      * @param \FunctionalTester $I
      */
-    public function setPostParamsWithHeaderTest (\FunctionalTester $I)
+    public function setPostParamsWithHeaderTest(\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();
@@ -175,7 +175,7 @@ class httpMockCest
             ->setHeaders([
                 'Content-Type' => 'application/json'
             ])
-            ->post($this->_endPoint.'/test/params/post');
+            ->post($this->_endPoint . '/test/params/post');
         $I->assertEquals($this->_curl->responseCode, 200);
     }
 
@@ -184,7 +184,7 @@ class httpMockCest
      * Post JSON data test
      * @param \FunctionalTester $I
      */
-    public function postJsonTest (\FunctionalTester $I)
+    public function postJsonTest(\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();
@@ -209,7 +209,7 @@ class httpMockCest
                 'Content-Type' => 'application/json',
                 'Content-Length' => strlen(json_encode($params))
             ])
-            ->post($this->_endPoint.'/test/params/post');
+            ->post($this->_endPoint . '/test/params/post');
         $I->assertEquals($this->_curl->responseCode, 200);
     }
 
@@ -271,7 +271,7 @@ class httpMockCest
      * @issue https://github.com/linslin/Yii2-Curl/issues/59
      * @param \FunctionalTester $I
      */
-    public function getHeaderParamWithSpecialHeaderSeparatorInValue (\FunctionalTester $I)
+    public function getHeaderParamWithSpecialHeaderSeparatorInValue(\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();
@@ -287,10 +287,291 @@ class httpMockCest
             )
         );
 
-        $this->_curl->get($this->_endPoint.'/test/header');
+        $this->_curl->get($this->_endPoint . '/test/header');
 
         $I->assertEquals($this->_curl->responseCode, 200);
         $I->assertEquals($this->_curl->responseHeaders['location'], 'http://somelocation/');
         $I->assertEquals($this->_curl->responseHeaders['param'], 'value');
+    }
+
+
+    /**
+     * Default head method test
+     *
+     * @param \FunctionalTester $I
+     */
+    public function defaultHeadMethodTest(\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+
+            Phiremock::on(
+                A::getRequest()->andUrl(Is::equalTo('/test/head'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->head($this->_endPoint . '/test/head');
+        $I->assertEquals($this->_curl->responseCode, 200);
+    }
+
+
+    /**
+     * Default delete method test
+     *
+     * @param \FunctionalTester $I
+     */
+    public function defaultDeleteMethodTest(\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+
+            Phiremock::on(
+                A::getRequest()->andUrl(Is::equalTo('/test/head'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->delete($this->_endPoint . '/test/head');
+        $I->assertEquals($this->_curl->responseCode, 200);
+    }
+
+
+    /**
+     * Default patch method test
+     *
+     * @param \FunctionalTester $I
+     */
+    public function defaultPatchMethodTest(\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+
+            Phiremock::on(
+                A::getRequest()->andUrl(Is::equalTo('/test/head'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->patch($this->_endPoint . '/test/head');
+        $I->assertEquals($this->_curl->responseCode, 200);
+    }
+
+
+    /**
+     * Default put method test
+     *
+     * @param \FunctionalTester $I
+     */
+    public function defaultPutMethodTest(\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+
+            Phiremock::on(
+                A::getRequest()->andUrl(Is::equalTo('/test/head'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->put($this->_endPoint . '/test/head');
+        $I->assertEquals($this->_curl->responseCode, 200);
+    }
+
+
+    /**
+     * Set single option test
+     *
+     * @param \FunctionalTester $I
+     */
+    public function setSingleDefaultOptionTest(\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+        $params = [
+            'key' => 'value',
+            'secondKey' => 'secondValue'
+        ];
+
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+            $expectation = Phiremock::on(
+                A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
+                    ->andBody(Is::equalTo(http_build_query($params)))
+                    ->andHeader('Content-Type', Is::equalTo('application/x-www-form-urlencoded'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->setOption(
+            CURLOPT_USERAGENT,
+            'my-agent'
+        )->post($this->_endPoint . '/test/params/post');
+        $I->assertEquals($this->_curl->responseCode, 200);
+    }
+
+
+    /**
+     * Set multiple option test
+     *
+     * @param \FunctionalTester $I
+     */
+    public function setMultipleOptionsTest(\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+        $params = [
+            'key' => 'value',
+            'secondKey' => 'secondValue'
+        ];
+
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+            $expectation = Phiremock::on(
+                A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
+                    ->andBody(Is::equalTo(http_build_query($params)))
+                    ->andHeader('Content-Type', Is::equalTo('application/x-www-form-urlencoded'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->setOptions([
+            CURLOPT_USERAGENT => 'my-agent',
+            CURLOPT_POSTFIELDS => http_build_query($params)
+        ])->post($this->_endPoint . '/test/params/post');
+        $I->assertEquals($this->_curl->responseCode, 200);
+    }
+
+
+    /**
+     * Set and unset option test
+     *
+     * @param \FunctionalTester $I
+     */
+    public function setUnsetSingleOptionTest(\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+        $params = [
+            'key' => 'value',
+            'secondKey' => 'secondValue'
+        ];
+
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+            $expectation = Phiremock::on(
+                A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
+                    ->andBody(Is::equalTo(http_build_query($params)))
+                    ->andHeader('Content-Type', Is::equalTo('application/x-www-form-urlencoded'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->setOption(
+            CURLOPT_POSTFIELDS,
+            http_build_query($params)
+        )
+            ->unsetOption(CURLOPT_POSTFIELDS)
+            ->post($this->_endPoint . '/test/params/post');
+
+        $I->assertEquals($this->_curl->responseCode, 200);
+    }
+
+
+    /**
+     * Unset all option test
+     *
+     * @param \FunctionalTester $I
+     */
+    public function setAllOptionsTest(\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+        $params = [
+            'key' => 'value',
+            'secondKey' => 'secondValue'
+        ];
+
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+            $expectation = Phiremock::on(
+                A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
+                    ->andBody(Is::equalTo(http_build_query($params)))
+                    ->andHeader('Content-Type', Is::equalTo('application/x-www-form-urlencoded'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->setOption(CURLOPT_POSTFIELDS, http_build_query($params))
+            ->unsetOptions()
+            ->post($this->_endPoint . '/test/params/post');
+
+        $I->assertEquals($this->_curl->responseCode, 200);
+    }
+
+
+    /**
+     * Simple reset after request test
+     * @param \FunctionalTester $I
+     */
+    public function resetAfterGet(\FunctionalTester $I)
+    {
+        $I->expectARequestToRemoteServiceWithAResponse(
+            Phiremock::on(
+                A::getRequest()->andUrl(Is::equalTo('/test/httpStatus/200'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->get($this->_endPoint . '/test/httpStatus/200');
+        $I->assertEquals($this->_curl->responseCode, 200);
+        $this->_curl->reset();
+    }
+
+
+    /**
+     * Simple get info test
+     * @param \FunctionalTester $I
+     */
+    public function getInfo(\FunctionalTester $I)
+    {
+        $I->expectARequestToRemoteServiceWithAResponse(
+            Phiremock::on(
+                A::getRequest()->andUrl(Is::equalTo('/test/httpStatus/200'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->get($this->_endPoint . '/test/httpStatus/200');
+        $I->assertEquals($this->_curl->responseCode, 200);
+        $this->_curl->getInfo();
+    }
+
+
+    /**
+     * Simple get info without curl test
+     * @param \FunctionalTester $I
+     */
+    public function getInfoWithoutCurl(\FunctionalTester $I)
+    {
+        $I->assertEquals($this->_curl->getInfo(CURLINFO_HEADER_SIZE ), []);
     }
 }
