@@ -27,9 +27,9 @@ class httpMockCest
 
     /**
      * Cleanup
-     * @param \AcceptanceTester $I
+     * @param \FunctionalTester $I
      */
-    public function _before(\AcceptanceTester $I)
+    public function _before(\FunctionalTester $I)
     {
         $I->haveACleanSetupInRemoteService();
 
@@ -40,9 +40,9 @@ class httpMockCest
 
     /**
      * Simple HTTP ok
-     * @param \AcceptanceTester $I
+     * @param \FunctionalTester $I
      */
-    public function simpleHttpOkTest (\AcceptanceTester $I)
+    public function simpleHttpOkTest (\FunctionalTester $I)
     {
         $I->expectARequestToRemoteServiceWithAResponse(
             Phiremock::on(
@@ -59,9 +59,9 @@ class httpMockCest
 
     /**
      * Try set params to send with get request
-     * @param \AcceptanceTester $I
+     * @param \FunctionalTester $I
      */
-    public function setGetParamsTest (\AcceptanceTester $I)
+    public function setGetParamsTest (\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();
@@ -88,9 +88,9 @@ class httpMockCest
 
     /**
      * Try set post to send with post request
-     * @param \AcceptanceTester $I
+     * @param \FunctionalTester $I
      */
-    public function setPostParamsTest (\AcceptanceTester $I)
+    public function setPostParamsTest (\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();
@@ -118,9 +118,9 @@ class httpMockCest
 
     /**
      * Try set post to send with post request
-     * @param \AcceptanceTester $I
+     * @param \FunctionalTester $I
      */
-    public function setPostParamsOptionTest (\AcceptanceTester $I)
+    public function setPostParamsOptionTest (\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();
@@ -150,9 +150,9 @@ class httpMockCest
 
     /**
      * Try set post param with header modification
-     * @param \AcceptanceTester $I
+     * @param \FunctionalTester $I
      */
-    public function setPostParamsWithHeaderTest (\AcceptanceTester $I)
+    public function setPostParamsWithHeaderTest (\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();
@@ -182,9 +182,9 @@ class httpMockCest
 
     /**
      * Post JSON data test
-     * @param \AcceptanceTester $I
+     * @param \FunctionalTester $I
      */
-    public function postJsonTest (\AcceptanceTester $I)
+    public function postJsonTest (\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();
@@ -216,9 +216,9 @@ class httpMockCest
 
     /**
      * Get JSON response test
-     * @param \AcceptanceTester $I
+     * @param \FunctionalTester $I
      */
-    public function getWithDecodedJsonResponseTest(\AcceptanceTester $I)
+    public function getWithDecodedJsonResponseTest(\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();
@@ -243,9 +243,9 @@ class httpMockCest
 
     /**
      * Get JSON response test
-     * @param \AcceptanceTester $I
+     * @param \FunctionalTester $I
      */
-    public function getWithRawJsonResponseTest(\AcceptanceTester $I)
+    public function getWithRawJsonResponseTest(\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();
@@ -269,9 +269,9 @@ class httpMockCest
      * Get header params with special header separators in values
      *
      * @issue https://github.com/linslin/Yii2-Curl/issues/59
-     * @param \AcceptanceTester $I
+     * @param \FunctionalTester $I
      */
-    public function getHeaderParamWithSpecialHeaderSeparatorInValue (\AcceptanceTester $I)
+    public function getHeaderParamWithSpecialHeaderSeparatorInValue (\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();

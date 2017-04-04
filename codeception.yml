@@ -7,6 +7,8 @@ paths:
     envs: tests/_envs
 coverage:
     enabled: true
+    include:
+        - Curl.php
 settings:
     bootstrap: _bootstrap.php
     colors: false
