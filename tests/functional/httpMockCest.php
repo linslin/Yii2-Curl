@@ -630,7 +630,7 @@ class httpMockCest
         $this->_curl->get( 'messy:/test/httpStatus/timeout');
 
         $I->assertEquals($this->_curl->responseCode, null);
-        $I->assertEquals($this->_curl->errorCode, 1);
+        $I->assertGreaterOrEquals($this->_curl->errorCode, 1);
     }
 
 
