@@ -13,11 +13,13 @@ class httpMockCest
     // ############################################### private class vars // ###########################################
 
     /**
+     * Holds instance of yii2-curl
      * @type linslin\yii2\curl\Curl
      */
     private $_curl = null;
 
     /**
+     * Default test server endpoint URL
      * @type string
      */
     private $_endPoint = 'http://127.0.0.1:18080';
@@ -572,5 +574,84 @@ class httpMockCest
     public function getInfoWithoutCurl(\FunctionalTester $I)
     {
         $I->assertEquals($this->_curl->getInfo(CURLINFO_HEADER_SIZE ), []);
+    }
+
+
+    /**
+     * Simple curl timeout test
+     * @param \FunctionalTester $I
+     */
+    public function defaultCurlTimeoutError(\FunctionalTester $I)
+    {
+        $I->expectARequestToRemoteServiceWithAResponse(
+            Phiremock::on(
+                A::getRequest()->andUrl(Is::equalTo('/test/httpStatus/timeout'))
+            )->then(
+                Respond::withStatusCode(404)
+                    ->andDelayInMillis(2000)
+            )
+        );
+
+        $this->_curl->setOption(CURLOPT_TIMEOUT, 1)
+            ->get($this->_endPoint . '/test/httpStatus/timeout');
+
+        $I->assertEquals($this->_curl->responseCode, 'timeout');
+    }
+
+
+    /**
+     * Simple get without head request
+     * @param \FunctionalTester $I
+     */
+    public function simpleGetWithoutHead(\FunctionalTester $I)
+    {
+        $I->expectARequestToRemoteServiceWithAResponse(
+            Phiremock::on(
+                A::getRequest()->andUrl(Is::equalTo('/test/httpStatus/200'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl
+            ->setOption(CURLOPT_HEADER, false)
+            ->get($this->_endPoint . '/test/httpStatus/200');
+
+        $I->assertEquals($this->_curl->responseCode, 200);
+    }
+
+
+    /**
+     * Simple curl error test CURLE_UNSUPPORTED_PROTOCOL
+     * @param \FunctionalTester $I
+     */
+    public function defaultCurlError(\FunctionalTester $I)
+    {
+        $this->_curl->get( 'messy:/test/httpStatus/timeout');
+
+        $I->assertEquals($this->_curl->responseCode, null);
+        $I->assertEquals($this->_curl->errorCode, 1);
+    }
+
+
+    /**
+     * Default charset extract test
+     * @param \FunctionalTester $I
+     */
+    public function defaultCharsetExtractTest(\FunctionalTester $I)
+    {
+        $I->expectARequestToRemoteServiceWithAResponse(
+            Phiremock::on(
+                A::getRequest()->andUrl(Is::equalTo('/test/httpStatus/header'))
+            )->then(
+                Respond::withStatusCode(200)
+                    ->andHeader('Content-Type', Is::equalTo('application/x-javascript;charset=UTF-8'))
+            )
+        );
+
+        $this->_curl
+            ->get($this->_endPoint . '/test/httpStatus/header');
+
+        $I->assertEquals($this->_curl->responseCharset, 'utf-8');
     }
 }
