@@ -97,7 +97,7 @@ class Curl
      * @var resource|null
      * Holds cURL-Handler
      */
-    protected $_curl = null;
+    public $curl = null;
 
     /**
      * @var string
@@ -190,7 +190,10 @@ class Curl
     public function patch($url, $raw = true)
     {
         $this->_baseUrl = $url;
-        return $this->_httpRequest('PATCH',$raw);
+        $this->setHeaders([
+            'X-HTTP-Method-Override' => 'PATCH'
+        ]);
+        return $this->_httpRequest('POST',$raw);
     }
 
 
@@ -391,8 +394,8 @@ class Curl
      */
     public function reset()
     {
-        if ($this->_curl !== null) {
-            curl_close($this->_curl); //stop curl
+        if ($this->curl !== null) {
+            curl_close($this->curl); //stop curl
         }
 
         //reset all options
@@ -401,7 +404,7 @@ class Curl
         }
 
         //reset response & status params
-        $this->_curl = null;
+        $this->curl = null;
         $this->errorCode = null;
         $this->response = null;
         $this->responseCode = null;
@@ -451,10 +454,10 @@ class Curl
      */
     public function getInfo($opt = null)
     {
-        if ($this->_curl !== null && $opt === null) {
-            return curl_getinfo($this->_curl);
-        } elseif ($this->_curl !== null && $opt !== null) {
-            return curl_getinfo($this->_curl, $opt);
+        if ($this->curl !== null && $opt === null) {
+            return curl_getinfo($this->curl);
+        } elseif ($this->curl !== null && $opt !== null) {
+            return curl_getinfo($this->curl, $opt);
         } else {
             return [];
         }
@@ -492,15 +495,15 @@ class Curl
          * proceed curl
          */
         $curlOptions =  $this->getOptions();
-        $this->_curl = curl_init($this->getUrl());
-        curl_setopt_array($this->_curl, $curlOptions);
-        $response = curl_exec($this->_curl);
+        $this->curl = curl_init($this->getUrl());
+        curl_setopt_array($this->curl, $curlOptions);
+        $response = curl_exec($this->curl);
 
         //check if curl was successful
         if ($response === false) {
 
             //set error code
-            $this->errorCode = curl_errno($this->_curl);
+            $this->errorCode = curl_errno($this->curl);
             $this->errorText = curl_strerror($this->errorCode);
 
             switch ($this->errorCode) {
@@ -552,13 +555,13 @@ class Curl
         /**
          * retrieve response code
          */
-        $this->responseCode = curl_getinfo($this->_curl, CURLINFO_HTTP_CODE);
+        $this->responseCode = curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
 
 
         /**
          * try extract response type & charset.
          */
-        $this->responseType = curl_getinfo($this->_curl, CURLINFO_CONTENT_TYPE);
+        $this->responseType = curl_getinfo($this->curl, CURLINFO_CONTENT_TYPE);
 
         if (!is_null($this->responseType) && count(explode(';', $this->responseType)) > 1) {
 
@@ -574,7 +577,7 @@ class Curl
         /**
          * try extract response length
          */
-        $this->responseLength = curl_getinfo($this->_curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+        $this->responseLength = curl_getinfo($this->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
 
         if((int)$this->responseLength == -1) {
             $this->responseLength = strlen($this->response);

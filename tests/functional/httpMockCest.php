@@ -308,7 +308,7 @@ class httpMockCest
         $I->expectARequestToRemoteServiceWithAResponse(
 
             Phiremock::on(
-                A::getRequest()->andUrl(Is::equalTo('/test/head'))
+                A::headRequest()->andUrl(Is::equalTo('/test/head'))
             )->then(
                 Respond::withStatusCode(200)
             )
@@ -332,7 +332,7 @@ class httpMockCest
         $I->expectARequestToRemoteServiceWithAResponse(
 
             Phiremock::on(
-                A::getRequest()->andUrl(Is::equalTo('/test/head'))
+                A::deleteRequest()->andUrl(Is::equalTo('/test/head'))
             )->then(
                 Respond::withStatusCode(200)
             )
@@ -356,7 +356,8 @@ class httpMockCest
         $I->expectARequestToRemoteServiceWithAResponse(
 
             Phiremock::on(
-                A::getRequest()->andUrl(Is::equalTo('/test/head'))
+                A::postRequest()->andUrl(Is::equalTo('/test/head'))
+                    ->andHeader('X-HTTP-Method-Override', Is::equalTo('PATCH'))
             )->then(
                 Respond::withStatusCode(200)
             )
@@ -380,7 +381,7 @@ class httpMockCest
         $I->expectARequestToRemoteServiceWithAResponse(
 
             Phiremock::on(
-                A::getRequest()->andUrl(Is::equalTo('/test/head'))
+                A::putRequest()->andUrl(Is::equalTo('/test/head'))
             )->then(
                 Respond::withStatusCode(200)
             )
@@ -411,15 +412,16 @@ class httpMockCest
                 A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
                     ->andBody(Is::equalTo(http_build_query($params)))
                     ->andHeader('Content-Type', Is::equalTo('application/x-www-form-urlencoded'))
+                    ->andHeader('user-agent', Is::equalTo('my-agent'))
             )->then(
                 Respond::withStatusCode(200)
             )
         );
 
-        $this->_curl->setOption(
-            CURLOPT_USERAGENT,
-            'my-agent'
-        )->post($this->_endPoint . '/test/params/post');
+        $this->_curl->setOption(CURLOPT_USERAGENT, 'my-agent')
+            ->setPostParams($params)
+            ->post($this->_endPoint . '/test/params/post');
+
         $I->assertEquals($this->_curl->responseCode, 200);
     }
 
@@ -450,9 +452,11 @@ class httpMockCest
         );
 
         $this->_curl->setOptions([
-            CURLOPT_USERAGENT => 'my-agent',
-            CURLOPT_POSTFIELDS => http_build_query($params)
-        ])->post($this->_endPoint . '/test/params/post');
+                CURLOPT_USERAGENT => 'my-agent',
+                CURLOPT_POSTFIELDS => http_build_query($params)
+            ])
+            ->post($this->_endPoint . '/test/params/post');
+
         $I->assertEquals($this->_curl->responseCode, 200);
     }
 
@@ -471,21 +475,16 @@ class httpMockCest
             'secondKey' => 'secondValue'
         ];
 
-
         $I->expectARequestToRemoteServiceWithAResponse(
             $expectation = Phiremock::on(
                 A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
-                    ->andBody(Is::equalTo(http_build_query($params)))
-                    ->andHeader('Content-Type', Is::equalTo('application/x-www-form-urlencoded'))
+                    ->andBody(Is::equalTo(''))
             )->then(
                 Respond::withStatusCode(200)
             )
         );
 
-        $this->_curl->setOption(
-            CURLOPT_POSTFIELDS,
-            http_build_query($params)
-        )
+        $this->_curl->setOption(CURLOPT_POSTFIELDS, http_build_query($params))
             ->unsetOption(CURLOPT_POSTFIELDS)
             ->post($this->_endPoint . '/test/params/post');
 
@@ -494,11 +493,11 @@ class httpMockCest
 
 
     /**
-     * Unset all option test
+     * Set and unset all options test
      *
      * @param \FunctionalTester $I
      */
-    public function setAllOptionsTest(\FunctionalTester $I)
+    public function setAllAndUnsertOptionsTest(\FunctionalTester $I)
     {
         //Init
         $this->_curl->reset();
@@ -507,12 +506,10 @@ class httpMockCest
             'secondKey' => 'secondValue'
         ];
 
-
         $I->expectARequestToRemoteServiceWithAResponse(
             $expectation = Phiremock::on(
                 A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
-                    ->andBody(Is::equalTo(http_build_query($params)))
-                    ->andHeader('Content-Type', Is::equalTo('application/x-www-form-urlencoded'))
+                    ->andBody(Is::equalTo(''))
             )->then(
                 Respond::withStatusCode(200)
             )
@@ -542,7 +539,9 @@ class httpMockCest
 
         $this->_curl->get($this->_endPoint . '/test/httpStatus/200');
         $I->assertEquals($this->_curl->responseCode, 200);
+
         $this->_curl->reset();
+        $I->assertEquals($this->_curl->curl, null);
     }
 
 
