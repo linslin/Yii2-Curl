@@ -146,6 +146,10 @@ var_dump($curl->responseHeaders);
  
 Changelog
 ------------
+##### Release 1.1.3 - Changelog
+- Fixed issue with patch request.
+- Fully added functionalTests for 100% coverage. 
+
 ##### Release 1.1.2 - Changelog
 - Fixed https://github.com/linslin/Yii2-Curl/issues/59
 - Fixed https://github.com/linslin/Yii2-Curl/issues/57
