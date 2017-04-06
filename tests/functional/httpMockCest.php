@@ -326,23 +326,23 @@ class httpMockCest
      *
      * @param \FunctionalTester $I
      */
-//    public function defaultDeleteMethodTest(\FunctionalTester $I)
-//    {
-//        //Init
-//        $this->_curl->reset();
-//
-//        $I->expectARequestToRemoteServiceWithAResponse(
-//
-//            Phiremock::on(
-//                A::deleteRequest()->andUrl(Is::equalTo('/test/head'))
-//            )->then(
-//                Respond::withStatusCode(200)
-//            )
-//        );
-//
-//        $this->_curl->delete($this->_endPoint . '/test/head');
-//        $I->assertEquals($this->_curl->responseCode, 200);
-//    }
+    public function defaultDeleteMethodTest(\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+
+            Phiremock::on(
+                A::deleteRequest()->andUrl(Is::equalTo('/test/head'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->delete($this->_endPoint . '/test/head');
+        $I->assertEquals($this->_curl->responseCode, 200);
+    }
 
 
     /**
