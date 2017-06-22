@@ -26,6 +26,13 @@ use yii\web\HttpException;
 class Curl
 {
     // ################################################ class vars // ################################################
+    
+    // Methods constants
+    const METHOD_GET = 'GET';
+    const METHOD_HEAD = 'HEAD';
+    const METHOD_POST = 'POST';
+    const METHOD_PUT = 'PUT';
+    const METHOD_DELETE = 'DELETE';
 
     /**
      * @var string
@@ -131,7 +138,7 @@ class Curl
     public function get($url, $raw = true)
     {
         $this->_baseUrl = $url;
-        return $this->_httpRequest('GET', $raw);
+        return $this->_httpRequest(self::METHOD_GET, $raw);
     }
 
 
@@ -145,7 +152,7 @@ class Curl
     public function head($url)
     {
         $this->_baseUrl = $url;
-        return $this->_httpRequest('HEAD');
+        return $this->_httpRequest(self::METHOD_HEAD);
     }
 
 
@@ -160,7 +167,7 @@ class Curl
     public function post($url, $raw = true)
     {
         $this->_baseUrl = $url;
-        return $this->_httpRequest('POST', $raw);
+        return $this->_httpRequest(self::METHOD_POST, $raw);
     }
 
 
@@ -175,7 +182,7 @@ class Curl
     public function put($url, $raw = true)
     {
         $this->_baseUrl = $url;
-        return $this->_httpRequest('PUT', $raw);
+        return $this->_httpRequest(self::METHOD_PUT, $raw);
     }
 
 
@@ -193,7 +200,7 @@ class Curl
         $this->setHeaders([
             'X-HTTP-Method-Override' => 'PATCH'
         ]);
-        return $this->_httpRequest('POST',$raw);
+        return $this->_httpRequest(self::METHOD_POST,$raw);
     }
 
 
@@ -208,7 +215,7 @@ class Curl
     public function delete($url, $raw = true)
     {
         $this->_baseUrl = $url;
-        return $this->_httpRequest('DELETE', $raw);
+        return $this->_httpRequest(self::METHOD_DELETE, $raw);
     }
 
 
@@ -477,10 +484,13 @@ class Curl
     protected function _httpRequest($method, $raw = false)
     {
         //set request type and writer function
-        $this->setOption(CURLOPT_CUSTOMREQUEST, strtoupper($method));
+        if ($method === self::METHOD_POST)
+            $this->setOption(CURLOPT_POST, true);
+        else if ($method !== self::METHOD_GET )
+            $this->setOption(CURLOPT_CUSTOMREQUEST, strtoupper($method));
 
         //check if method is head and set no body
-        if ($method === 'HEAD') {
+        if ($method === self::METHOD_HEAD) {
             $this->setOption(CURLOPT_NOBODY, true);
             $this->unsetOption(CURLOPT_WRITEFUNCTION);
         }
@@ -537,7 +547,7 @@ class Curl
         }
 
         //check responseCode and return data/status
-        if ($this->getOption(CURLOPT_CUSTOMREQUEST) === 'HEAD') {
+        if ($this->getOption(CURLOPT_CUSTOMREQUEST) === self::METHOD_HEAD) {
             return true;
         } else {
             $this->response = $raw ? $this->response : Json::decode($this->response);
