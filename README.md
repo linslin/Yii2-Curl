@@ -146,6 +146,12 @@ var_dump($curl->responseHeaders);
  
 Changelog
 ------------
+##### Release 1.1.4 - Changelog
+- Added `getRequestHeaders() [array]` helper which returns all request headers as an array.
+- Added `getRequestHeader([string headerKey]) [string|null]`  helper which returns a specific request header as an string.
+- Added new test cases for `getRequestHeaders()` and `getRequestHeader()`.
+- Readme adjustments. 
+
 ##### Release 1.1.3 - Changelog
 - Fixed issue with patch request.
 - Fully added functionalTests for 100% coverage. 

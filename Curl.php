@@ -8,7 +8,7 @@
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2017 Nils Gajsek <info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.1.3
+ * @version   1.1.4
  * @link      http://www.linslin.org
  *
  */
@@ -350,6 +350,52 @@ class Curl
         }
 
         return $this;
+    }
+
+
+    /**
+     * Get request headers as key:value array
+     *
+     * @return array
+     */
+    public function getRequestHeaders()
+    {
+        //Init
+        $requestHeaders = $this->getOption(CURLOPT_HTTPHEADER);
+        $parsedRequestHeaders = [];
+
+        if (is_array($requestHeaders)) {
+            foreach ($requestHeaders as $headerValue) {
+                list ($key, $value) = explode(':', $headerValue, 2);
+                $parsedRequestHeaders[$key] = $value;
+            }
+        }
+
+        return $parsedRequestHeaders;
+    }
+
+
+    /**
+     * Get specific request header as key:value array
+     *
+     * @param string $headerKey
+     *
+     * @return string|null
+     */
+    public function getRequestHeader($headerKey)
+    {
+        //Init
+        $requestHeaders = $this->getOption(CURLOPT_HTTPHEADER);
+        $parsedRequestHeaders = [];
+
+        if (is_array($requestHeaders)) {
+            foreach ($requestHeaders as $headerValue) {
+                list ($key, $value) = explode(':', $headerValue, 2);
+                $parsedRequestHeaders[$key] = $value;
+            }
+        }
+
+        return isset($parsedRequestHeaders[$headerKey]) ? $parsedRequestHeaders[$headerKey] : null;
     }
 
 
