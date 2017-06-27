@@ -226,3 +226,5 @@ Changelog
 Testing
 ------------
 
+- Run codeception test with `vendor/bin/codecept run` in repository root dir. 
+  On windows run `vendor\bin\codecept.bat run`
