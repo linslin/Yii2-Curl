@@ -106,6 +106,12 @@ class Curl
     protected $_baseUrl = '';
 
     /**
+     * @var string
+     * Holds the headers for the request.
+     */
+    public $_headers;
+
+    /**
      * @var array default curl options
      * Default curl options
      */
@@ -324,6 +330,31 @@ class Curl
 
 
     /**
+     * Get all headers
+     *
+     * @return string
+     */
+    public function getHeaders()
+    {
+        return $this->_headers;
+    }
+
+
+    /**
+     * Set header
+     *
+     * @param $key
+     * @param $value
+     */
+    public function setHeader($key, $value)
+    {
+        $headers = [$key => $value];
+
+        $this->setHeaders($headers);
+    }
+
+
+    /**
      * Set header for request
      *
      * @param array $headers
@@ -334,18 +365,15 @@ class Curl
     {
         if (is_array($headers)) {
 
-            //init
-            $parsedHeader = [];
-
             //parse header into right format key:value
             foreach ($headers as $header => $value) {
-                array_push($parsedHeader, $header.':'.$value);
+                $this->_headers[] = $header.':'.$value;
             }
 
             //set headers
             $this->setOption(
                 CURLOPT_HTTPHEADER,
-                $parsedHeader
+                $this->_headers
             );
         }
 
