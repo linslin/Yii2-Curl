@@ -28,7 +28,7 @@ class Curl
     // ################################################ class vars // ################################################
 
     /**
-     * @var string
+     * @var string|boolean
      * Holds response data right after sending a request.
      */
     public $response = null;

@@ -152,7 +152,7 @@ Testing
  
 Changelog
 ------------
-##### Release 1.1.4 - Changelog
+##### Release 1.2.0 - Changelog
 - Added `unsetHeader([string header]) [this]` helper which allows you to unset one specific header.
 - Added `setHeader([string header, string value]) [this]` helper which allows you to set one specific header.
 - Added `getRequestHeaders() [array]` helper which returns all request headers as an array.
