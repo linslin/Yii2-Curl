@@ -834,4 +834,40 @@ class httpMockCest
         $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
         $I->assertEquals($this->_curl->getRequestHeader('custom-type'), null);
     }
+
+    /**
+     * Try set a single header, multiple header and unset one header param and check if getRequestHeader() does return it
+     * @param \FunctionalTester $I
+     */
+    public function setMultipleHeadersAndSingleHeaderAndUnsetOneTillTestGetHeader(\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+        $params = [
+            'key' => 'value',
+            'secondKey' => 'secondValue'
+        ];
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+            $expectation = Phiremock::on(
+                A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
+                    ->andBody(Is::equalTo(http_build_query($params)))
+                    ->andHeader('Content-Type', Is::equalTo('application/json'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->setPostParams($params)
+            ->setHeaders([
+                'custom-type' => '><)#7?aJEvgavJk(*4'
+            ])
+            ->setHeader('Content-Type', 'application/json')
+            ->unsetHeader('custom-type')
+            ->post($this->_endPoint . '/test/params/post');
+
+        //check for value
+        $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
+        $I->assertEquals($this->_curl->getRequestHeader('custom-type'), null);
+    }
 }
