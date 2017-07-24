@@ -729,4 +729,109 @@ class httpMockCest
         //check for value
         $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
     }
+
+    /**
+     * Try set a single header param and check if getRequestHeader() does return it
+     * @param \FunctionalTester $I
+     */
+    public function setSingleHeaderParamAndTestGetHeader(\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+        $params = [
+            'key' => 'value',
+            'secondKey' => 'secondValue'
+        ];
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+            $expectation = Phiremock::on(
+                A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
+                    ->andBody(Is::equalTo(http_build_query($params)))
+                    ->andHeader('Content-Type', Is::equalTo('application/json'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->setPostParams($params)
+            ->setHeader('Content-Type', 'application/json')
+            ->post($this->_endPoint . '/test/params/post');
+
+        //check for value
+        $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
+    }
+
+
+    /**
+     * Try set a single header and multiple headers at once and check if getRequestHeader() does return it
+     * @param \FunctionalTester $I
+     */
+    public function setSingleHeaderAndMultipleHeadersAndTestGetHeader(\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+        $params = [
+            'key' => 'value',
+            'secondKey' => 'secondValue'
+        ];
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+            $expectation = Phiremock::on(
+                A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
+                    ->andBody(Is::equalTo(http_build_query($params)))
+                    ->andHeader('Content-Type', Is::equalTo('application/json'))
+                    ->andHeader('custom-type', Is::equalTo('><)#7?aJEvgavJk(*4'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->setPostParams($params)
+            ->setHeader('Content-Type', 'application/json')
+            ->setHeaders([
+                'custom-type' => '><)#7?aJEvgavJk(*4'
+            ])
+            ->post($this->_endPoint . '/test/params/post');
+
+        //check for value
+        $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
+        $I->assertEquals($this->_curl->getRequestHeader('custom-type'), '><)#7?aJEvgavJk(*4');
+    }
+
+
+    /**
+     * Try set a single header, multiple header and unset one header param and check if getRequestHeader() does return it
+     * @param \FunctionalTester $I
+     */
+    public function setSingleHeaderAndMultipleHeadersAndUnsetOneTillTestGetHeader(\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+        $params = [
+            'key' => 'value',
+            'secondKey' => 'secondValue'
+        ];
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+            $expectation = Phiremock::on(
+                A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
+                    ->andBody(Is::equalTo(http_build_query($params)))
+                    ->andHeader('Content-Type', Is::equalTo('application/json'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->setPostParams($params)
+            ->setHeader('Content-Type', 'application/json')
+            ->setHeaders([
+                'custom-type' => '><)#7?aJEvgavJk(*4'
+            ])
+            ->unsetHeader('custom-type')
+            ->post($this->_endPoint . '/test/params/post');
+
+        //check for value
+        $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
+        $I->assertEquals($this->_curl->getRequestHeader('custom-type'), null);
+    }
 }

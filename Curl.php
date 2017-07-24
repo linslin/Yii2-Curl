@@ -324,7 +324,7 @@ class Curl
 
 
     /**
-     * Set header for request
+     * Set multiple headers for request.
      *
      * @param array $headers
      *
@@ -336,6 +336,11 @@ class Curl
 
             //init
             $parsedHeader = [];
+
+            //collect currently set headers
+            foreach ($this->getRequestHeaders() as $header => $value) {
+                array_push($parsedHeader, $header.':'.$value);
+            }
 
             //parse header into right format key:value
             foreach ($headers as $header => $value) {
@@ -354,7 +359,69 @@ class Curl
 
 
     /**
-     * Get request headers as key:value array
+     * Set a single header for request.
+     *
+     * @param string $header
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setHeader($header, $value)
+    {
+        //init
+        $parsedHeader = [];
+
+        //collect currently set headers
+        foreach ($this->getRequestHeaders() as $headerToSet => $valueToSet) {
+            array_push($parsedHeader, $headerToSet.':'.$valueToSet);
+        }
+
+        //add override new header
+        if (strlen($header) > 0) {
+            array_push($parsedHeader, $header.':'.$value);
+        }
+
+        //set headers
+        $this->setOption(
+            CURLOPT_HTTPHEADER,
+            $parsedHeader
+        );
+
+        return $this;
+    }
+
+
+    /**
+     * Unset a single header.
+     *
+     * @param string $header
+     *
+     * @return $this
+     */
+    public function unsetHeader($header)
+    {
+        //init
+        $parsedHeader = [];
+
+        //collect currently set headers and filter "unset" header param.
+        foreach ($this->getRequestHeaders() as $headerToSet => $valueToSet) {
+            if ($header !== $headerToSet) {
+                array_push($parsedHeader, $headerToSet.':'.$valueToSet);
+            }
+        }
+
+        //set headers
+        $this->setOption(
+            CURLOPT_HTTPHEADER,
+            $parsedHeader
+        );
+
+        return $this;
+    }
+
+
+    /**
+     * Get all request headers as key:value array
      *
      * @return array
      */
@@ -385,15 +452,7 @@ class Curl
     public function getRequestHeader($headerKey)
     {
         //Init
-        $requestHeaders = $this->getOption(CURLOPT_HTTPHEADER);
-        $parsedRequestHeaders = [];
-
-        if (is_array($requestHeaders)) {
-            foreach ($requestHeaders as $headerValue) {
-                list ($key, $value) = explode(':', $headerValue, 2);
-                $parsedRequestHeaders[$key] = $value;
-            }
-        }
+        $parsedRequestHeaders = $this->getRequestHeaders();
 
         return isset($parsedRequestHeaders[$headerKey]) ? $parsedRequestHeaders[$headerKey] : null;
     }

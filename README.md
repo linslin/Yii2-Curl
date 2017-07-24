@@ -143,10 +143,18 @@ switch ($curl->responseCode) {
 var_dump($curl->responseHeaders);
 ```
 
+Testing
+------------
+
+- Run codeception tests with `vendor/bin/codecept run` in repository root dir. 
+  On windows run `vendor\bin\codecept.bat run`.
+
  
 Changelog
 ------------
 ##### Release 1.1.4 - Changelog
+- Added `unsetHeader([string header]) [this]` helper which allows you to unset one specific header.
+- Added `setHeader([string header, string value]) [this]` helper which allows you to set one specific header.
 - Added `getRequestHeaders() [array]` helper which returns all request headers as an array.
 - Added `getRequestHeader([string headerKey]) [string|null]`  helper which returns a specific request header as an string.
 - Added new test cases for `getRequestHeaders()` and `getRequestHeader()`.
@@ -228,9 +236,3 @@ Changelog
 
 ##### Release 1.0 - Changelog
 - Official stable release
-
-Testing
-------------
-
-- Run codeception tests with `vendor/bin/codecept run` in repository root dir. 
-  On windows run `vendor\bin\codecept.bat run`.
