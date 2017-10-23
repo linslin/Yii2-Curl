@@ -928,12 +928,12 @@ class httpMockCest
             )
         );
 
-        $this->_curl->setRawPostData(json_encode($params))
+        $jsonResponse = $this->_curl->setRawPostData(json_encode($params))
             ->setHeader('Content-Type', 'application/json')
             ->post($this->_endPoint . '/test/params/post', false);
 
         //check for value
         $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
-        $I->assertEquals($this->_curl->response, $params);
+        $I->assertEquals($jsonResponse, $params);
     }
 }
