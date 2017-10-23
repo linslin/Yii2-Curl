@@ -904,6 +904,37 @@ class httpMockCest
     }
 
     /**
+     * Try to post raw json string
+     * @param \FunctionalTester $I
+     */
+    public function setRawPostDataTesTwo(\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+        $params = [
+            'key' => 'value',
+            'secondKey' => 'secondValue'
+        ];
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+            $expectation = Phiremock::on(
+                A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
+                    ->andBody(Is::equalTo(json_encode($params)))
+                    ->andHeader('Content-Type', Is::equalTo('application/json'))
+            )->then(
+                Respond::withStatusCode(200)
+            )
+        );
+
+        $this->_curl->setRawPostData(json_encode($params))
+            ->setHeader('Content-Type', 'application/json')
+            ->post($this->_endPoint . '/test/params/post');
+
+        //check for value
+        $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
+    }
+
+    /**
      * Try to post raw json string and decode result by default
      * @param \FunctionalTester $I
      */
