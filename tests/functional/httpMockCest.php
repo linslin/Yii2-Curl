@@ -901,7 +901,6 @@ class httpMockCest
 
         //check for value
         $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
-        $I->assertEquals($this->_curl->getRequestHeader('custom-type'), null);
     }
 
     /**
@@ -911,7 +910,7 @@ class httpMockCest
     public function setRawPostDataAndAutoDecodeJsonResponse (\FunctionalTester $I)
     {
         //Init
-        $this->_curl->reset();
+        $this->_curl = new linslin\yii2\curl\Curl();
         $params = [
             'key' => 'value',
             'secondKey' => 'secondValue'
@@ -933,6 +932,5 @@ class httpMockCest
 
         //check for value
         $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
-        $I->assertEquals($this->_curl->getRequestHeader('custom-type'), null);
     }
 }
