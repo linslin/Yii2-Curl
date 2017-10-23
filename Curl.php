@@ -274,6 +274,25 @@ class Curl
 
 
     /**
+     * Set raw post data allows you to post any data format.
+     *
+     * @param mixed $data
+     * @return $this
+     */
+    public function setRawPostData($data)
+    {
+
+        $this->setOption(
+            CURLOPT_POSTFIELDS,
+            $data
+        );
+
+        //return self
+        return $this;
+    }
+
+
+    /**
      * Set get params
      *
      * @param string $data

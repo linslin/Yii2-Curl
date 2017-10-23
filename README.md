@@ -80,6 +80,25 @@ $response = $curl->setPostParams([
 ```
 
 ```php
+// POST RAW JSON
+$curl = new curl\Curl();
+$response = $curl->setRawPostData(
+     json_encode[
+        'key' => 'value',
+        'secondKey' => 'secondValue'
+     ])
+     ->post('http://example.com/');
+```
+
+```php
+// POST RAW XML
+$curl = new curl\Curl();
+$response = $curl->setRawPostData('<?xml version="1.0" encoding="UTF-8"?><someNode>Test</someNode>')
+     ->post('http://example.com/');
+```
+
+
+```php
 // POST with special headers
 $curl = new curl\Curl();
 $response = $curl->setPostParams([
@@ -152,6 +171,9 @@ Testing
  
 Changelog
 ------------
+##### Release 1.2.1 - Changelog
+- Added `setRawPostData([mixed]) [this]` which allows you to post any data format. 
+
 ##### Release 1.2.0 - Changelog
 - Added `unsetHeader([string header]) [this]` helper which allows you to unset one specific header.
 - Added `setHeader([string header, string value]) [this]` helper which allows you to set one specific header.
