@@ -8,7 +8,7 @@
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2017 Nils Gajsek <info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.1.4
+ * @version   1.2.2
  * @link      http://www.linslin.org
  *
  */
@@ -281,7 +281,6 @@ class Curl
      */
     public function setRawPostData($data)
     {
-
         $this->setOption(
             CURLOPT_POSTFIELDS,
             $data
@@ -594,7 +593,7 @@ class Curl
      * @param string  $method
      * @param boolean $raw if response body contains JSON and should be decoded -> helper.
      *
-     * @throws Exception if request failed
+     * @throws \Exception if request failed
      *
      * @return mixed
      */

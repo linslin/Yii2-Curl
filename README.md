@@ -91,6 +91,21 @@ $response = $curl->setRawPostData(
 ```
 
 ```php
+// POST RAW JSON and auto decode JSON respawn by setting raw = true. 
+// This is usefull if you expect an JSON response and want to autoparse it. 
+$curl = new curl\Curl();
+$response = $curl->setRawPostData(
+     json_encode[
+        'key' => 'value',
+        'secondKey' => 'secondValue'
+     ])
+     ->post('http://example.com/', true);
+     
+// JSON decoded response by parsing raw = true in to ->post().
+var_dump($response);
+```
+
+```php
 // POST RAW XML
 $curl = new curl\Curl();
 $response = $curl->setRawPostData('<?xml version="1.0" encoding="UTF-8"?><someNode>Test</someNode>')
@@ -171,6 +186,9 @@ Testing
  
 Changelog
 ------------
+##### Release 1.2.2 - Changelog
+- Added some new cURL examples into readme.md.
+
 ##### Release 1.2.1 - Changelog
 - Added `setRawPostData([mixed]) [this]` which allows you to post any data format. 
 

@@ -872,7 +872,7 @@ class httpMockCest
     }
 
     /**
-     * Try set a single header, multiple header and unset one header param and check if getRequestHeader() does return it
+     * Try to post raw json string
      * @param \FunctionalTester $I
      */
     public function setRawPostDataTest (\FunctionalTester $I)
@@ -901,5 +901,39 @@ class httpMockCest
         //check for value
         $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
         $I->assertEquals($this->_curl->getRequestHeader('custom-type'), null);
+    }
+
+    /**
+     * Try to post raw json string and decode result by default
+     * @param \FunctionalTester $I
+     */
+    public function setRawPostDataAndAutoDecodeJsonResponse (\FunctionalTester $I)
+    {
+        //Init
+        $this->_curl->reset();
+        $params = [
+            'key' => 'value',
+            'secondKey' => 'secondValue'
+        ];
+
+        $I->expectARequestToRemoteServiceWithAResponse(
+            $expectation = Phiremock::on(
+                A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
+                    ->andBody(Is::equalTo(json_encode($params)))
+                    ->andHeader('Content-Type', Is::equalTo('application/json'))
+            )->then(
+                Respond::withStatusCode(200)
+                    ->andBody(json_encode($params))
+            )
+        );
+
+        $this->_curl->setRawPostData(json_encode($params))
+            ->setHeader('Content-Type', 'application/json')
+            ->post($this->_endPoint . '/test/params/post', false);
+
+        //check for value
+        $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
+        $I->assertEquals($this->_curl->getRequestHeader('custom-type'), null);
+        $I->assertEquals($this->_curl->response, $params);
     }
 }
