@@ -200,19 +200,20 @@ class httpMockCest
             $expectation = Phiremock::on(
                 A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
                     ->andBody(Is::equalTo(json_encode($params)))
-                    ->andHeader('Content-Type', Is::equalTo('application/json'))
-                    ->andHeader('Content-Length', Is::equalTo(strlen(json_encode($params))))
+                    ->andHeader('content-type', Is::equalTo('application/json'))
             )->then(
                 Respond::withStatusCode(200)
+                    ->andBody('{"id": 1, "description": "I am a resource"}')
             )
         );
 
         $this->_curl->setRequestBody(json_encode($params))
             ->setHeaders([
-                'Content-Type' => 'application/json',
-                'Content-Length' => strlen(json_encode($params))
+                'content-type' => 'application/json',
+                'content-length' => strlen(json_encode($params))
             ])
             ->post($this->_endPoint . '/test/params/post');
+
         $I->assertEquals($this->_curl->responseCode, 200);
     }
 
@@ -933,7 +934,6 @@ class httpMockCest
 
         //check for value
         $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
-        $I->assertEquals($this->_curl->getRequestHeader('custom-type'), null);
         $I->assertEquals($this->_curl->response, $params);
     }
 }

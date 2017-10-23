@@ -663,7 +663,7 @@ class Curl
         if ($this->getOption(CURLOPT_CUSTOMREQUEST) === 'HEAD') {
             return true;
         } else {
-            $this->response = $raw ? $this->response : Json::decode($this->response);
+            $this->response = $raw ? $this->response : json_decode($this->response, true);
             return $this->response;
         }
     }
