@@ -919,7 +919,7 @@ class httpMockCest
 
         $I->expectARequestToRemoteServiceWithAResponse(
             $expectation = Phiremock::on(
-                A::postRequest()->andUrl(Is::equalTo('/test/params/post'))
+                A::postRequest()->andUrl(Is::equalTo('/test/params/post/respond'))
                     ->andBody(Is::equalTo(json_encode($params)))
                     ->andHeader('Content-Type', Is::equalTo('application/json'))
             )->then(
@@ -929,7 +929,7 @@ class httpMockCest
 
         $this->_curl->setRawPostData(json_encode($params))
             ->setHeader('Content-Type', 'application/json')
-            ->post($this->_endPoint . '/test/params/post');
+            ->post($this->_endPoint . '/test/params/post/respond', true);
 
         //check for value
         $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
