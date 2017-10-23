@@ -664,6 +664,7 @@ class Curl
             return true;
         } else {
             $this->response = $raw ? $this->response : json_decode($this->response, true);
+            var_dump($this->response);
             return $this->response;
         }
     }
