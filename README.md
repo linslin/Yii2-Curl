@@ -181,7 +181,7 @@ Testing
 ------------
 
 - Run codeception tests with `vendor/bin/codecept run` in repository root dir. 
-  On windows run `vendor\bin\codecept.bat run`.
+  On windows run `vendor\bin\codecept.bat run`. 
 
  
 Changelog
