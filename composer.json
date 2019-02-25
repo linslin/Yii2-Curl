@@ -12,8 +12,8 @@
     ],
     "require": {
         "ext-json": "*",
-        "yiisoft/yii2": "*",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "yiisoft/yii2": "*"
     },
     "require-dev": {
         "codeception/base": "^2.2.3",

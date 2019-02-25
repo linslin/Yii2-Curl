@@ -19,7 +19,7 @@ Requirements
 ------------
 - Yii2
 - PHP >=7.1.3
-- Curl and php-curl installed
+- ext-curl, ext-json, and php-curl installed
 
 
 Installation
