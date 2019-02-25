@@ -8,7 +8,7 @@
  * @author    Nils Gajsek <info@linslin.org>
  * @copyright 2013-2017 Nils Gajsek <info@linslin.org>
  * @license   http://opensource.org/licenses/MIT MIT Public
- * @version   1.2.2
+ * @version   1.2.3
  * @link      http://www.linslin.org
  *
  */
@@ -16,12 +16,11 @@
 namespace linslin\yii2\curl;
 
 use Yii;
-use yii\base\Exception;
-use yii\helpers\Json;
-use yii\web\HttpException;
+
 
 /**
- * cURL class
+ * Class Curl
+ * @package linslin\yii2\curl
  */
 class Curl
 {
@@ -118,6 +117,7 @@ class Curl
     ];
 
 
+
     // ############################################### class methods // ##############################################
 
     /**
@@ -126,7 +126,8 @@ class Curl
      * @param string  $url
      * @param boolean $raw if response body contains JSON and should be decoded
      *
-     * @return mixed response
+     * @return mixed
+     * @throws \Exception
      */
     public function get($url, $raw = true)
     {
@@ -135,12 +136,14 @@ class Curl
     }
 
 
+
     /**
      * Start performing HEAD-HTTP-Request
      *
      * @param string $url
      *
-     * @return mixed response
+     * @return mixed
+     * @throws \Exception
      */
     public function head($url)
     {
@@ -155,7 +158,8 @@ class Curl
      * @param string  $url
      * @param boolean $raw if response body contains JSON and should be decoded
      *
-     * @return mixed response
+     * @return mixed
+     * @throws \Exception
      */
     public function post($url, $raw = true)
     {
@@ -170,7 +174,8 @@ class Curl
      * @param string  $url
      * @param boolean $raw if response body contains JSON and should be decoded
      *
-     * @return mixed response
+     * @return mixed
+     * @throws \Exception
      */
     public function put($url, $raw = true)
     {
@@ -182,10 +187,11 @@ class Curl
     /**
      * Start performing PATCH-HTTP-Request
      *
-     * @param string  $url
-     * @param boolean $raw if response body contains JSON and should be decoded
+     * @param string $url
+     * @param bool $raw if response body contains JSON and should be decoded
      *
-     * @return mixed response
+     * @return mixed
+     * @throws \Exception
      */
     public function patch($url, $raw = true)
     {
@@ -193,7 +199,7 @@ class Curl
         $this->setHeaders([
             'X-HTTP-Method-Override' => 'PATCH'
         ]);
-        return $this->_httpRequest('POST',$raw);
+        return $this->_httpRequest('PATCH',$raw);
     }
 
 
@@ -203,7 +209,8 @@ class Curl
      * @param string  $url
      * @param boolean $raw if response body contains JSON and should be decoded
      *
-     * @return mixed response
+     * @return mixed
+     * @throws \Exception
      */
     public function delete($url, $raw = true)
     {
@@ -702,7 +709,7 @@ class Curl
          */
         $this->responseLength = curl_getinfo($this->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
 
-        if((int)$this->responseLength == -1) {
+        if((int)$this->responseLength === -1) {
             $this->responseLength = strlen($this->response);
         }
     }

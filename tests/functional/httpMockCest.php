@@ -40,9 +40,11 @@ class httpMockCest
     }
 
 
+
     /**
      * Simple HTTP ok
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function simpleHttpOkTest(\FunctionalTester $I)
     {
@@ -61,7 +63,8 @@ class httpMockCest
 
     /**
      * Try set params to send with get request
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setGetParamsTest(\FunctionalTester $I)
     {
@@ -90,7 +93,8 @@ class httpMockCest
 
     /**
      * Try set post to send with post request
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setPostParamsTest(\FunctionalTester $I)
     {
@@ -120,7 +124,8 @@ class httpMockCest
 
     /**
      * Try set post to send with post request
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setPostParamsOptionTest(\FunctionalTester $I)
     {
@@ -150,9 +155,11 @@ class httpMockCest
     }
 
 
+
     /**
      * Try set post param with header modification
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setPostParamsWithHeaderTest(\FunctionalTester $I)
     {
@@ -185,7 +192,8 @@ class httpMockCest
 
     /**
      * Post JSON data test
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function postJsonTest(\FunctionalTester $I)
     {
@@ -220,7 +228,8 @@ class httpMockCest
 
     /**
      * Get JSON response test
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function getWithDecodedJsonResponseTest(\FunctionalTester $I)
     {
@@ -247,7 +256,8 @@ class httpMockCest
 
     /**
      * Get JSON response test
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function getWithRawJsonResponseTest(\FunctionalTester $I)
     {
@@ -271,9 +281,10 @@ class httpMockCest
 
     /**
      * Get header params with special header separators in values
-     *
      * @issue https://github.com/linslin/Yii2-Curl/issues/59
-     * @param \FunctionalTester $I
+     *
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function getHeaderParamWithSpecialHeaderSeparatorInValue(\FunctionalTester $I)
     {
@@ -301,8 +312,8 @@ class httpMockCest
 
     /**
      * Default head method test
-     *
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function defaultHeadMethodTest(\FunctionalTester $I)
     {
@@ -325,8 +336,8 @@ class httpMockCest
 
     /**
      * Default delete method test
-     *
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function defaultDeleteMethodTest(\FunctionalTester $I)
     {
@@ -349,8 +360,8 @@ class httpMockCest
 
     /**
      * Default patch method test
-     *
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function defaultPatchMethodTest(\FunctionalTester $I)
     {
@@ -360,7 +371,7 @@ class httpMockCest
         $I->expectARequestToRemoteServiceWithAResponse(
 
             Phiremock::on(
-                A::postRequest()->andUrl(Is::equalTo('/test/head'))
+                A::patchRequest()->andUrl(Is::equalTo('/test/head'))
                     ->andHeader('X-HTTP-Method-Override', Is::equalTo('PATCH'))
             )->then(
                 Respond::withStatusCode(200)
@@ -374,8 +385,8 @@ class httpMockCest
 
     /**
      * Default put method test
-     *
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function defaultPutMethodTest(\FunctionalTester $I)
     {
@@ -398,8 +409,8 @@ class httpMockCest
 
     /**
      * Set single option test
-     *
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setSingleDefaultOptionTest(\FunctionalTester $I)
     {
@@ -432,8 +443,8 @@ class httpMockCest
 
     /**
      * Set multiple option test
-     *
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setMultipleOptionsTest(\FunctionalTester $I)
     {
@@ -467,8 +478,8 @@ class httpMockCest
 
     /**
      * Set and unset option test
-     *
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setUnsetSingleOptionTest(\FunctionalTester $I)
     {
@@ -498,8 +509,8 @@ class httpMockCest
 
     /**
      * Set and unset all options test
-     *
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setAllAndUnsertOptionsTest(\FunctionalTester $I)
     {
@@ -529,7 +540,8 @@ class httpMockCest
 
     /**
      * Simple reset after request test
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function resetAfterGet(\FunctionalTester $I)
     {
@@ -551,7 +563,8 @@ class httpMockCest
 
     /**
      * Simple get info test
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function getInfo(\FunctionalTester $I)
     {
@@ -581,7 +594,8 @@ class httpMockCest
 
     /**
      * Simple curl timeout test
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function defaultCurlTimeoutError(\FunctionalTester $I)
     {
@@ -603,7 +617,8 @@ class httpMockCest
 
     /**
      * Simple get without head request
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function simpleGetWithoutHead(\FunctionalTester $I)
     {
@@ -624,8 +639,9 @@ class httpMockCest
 
 
     /**
-     * Simple curl error test CURLE_UNSUPPORTED_PROTOCOL
-     * @param \FunctionalTester $I
+     * Simple curl error test CURL_UNSUPPORTED_PROTOCOL
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function defaultCurlError(\FunctionalTester $I)
     {
@@ -638,7 +654,8 @@ class httpMockCest
 
     /**
      * Default charset extract test
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function defaultCharsetExtractTest(\FunctionalTester $I)
     {
@@ -660,7 +677,8 @@ class httpMockCest
 
     /**
      * Try set a header param and check if getHeaders() does return it
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setHeaderParamAndTestGetHeaders(\FunctionalTester $I)
     {
@@ -699,7 +717,8 @@ class httpMockCest
 
     /**
      * Try set a header param and check if getHeader() does return it
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setHeaderParamAndTestGetHeader(\FunctionalTester $I)
     {
@@ -731,9 +750,11 @@ class httpMockCest
         $I->assertEquals($this->_curl->getRequestHeader('Content-Type'), 'application/json');
     }
 
+
     /**
      * Try set a single header param and check if getRequestHeader() does return it
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setSingleHeaderParamAndTestGetHeader(\FunctionalTester $I)
     {
@@ -765,7 +786,8 @@ class httpMockCest
 
     /**
      * Try set a single header and multiple headers at once and check if getRequestHeader() does return it
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setSingleHeaderAndMultipleHeadersAndTestGetHeader(\FunctionalTester $I)
     {
@@ -802,7 +824,8 @@ class httpMockCest
 
     /**
      * Try set a single header, multiple header and unset one header param and check if getRequestHeader() does return it
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setSingleHeaderAndMultipleHeadersAndUnsetOneTillTestGetHeader(\FunctionalTester $I)
     {
@@ -836,9 +859,11 @@ class httpMockCest
         $I->assertEquals($this->_curl->getRequestHeader('custom-type'), null);
     }
 
+
     /**
      * Try set a single header, multiple header and unset one header param and check if getRequestHeader() does return it
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setMultipleHeadersAndSingleHeaderAndUnsetOneTillTestGetHeader(\FunctionalTester $I)
     {
@@ -872,9 +897,11 @@ class httpMockCest
         $I->assertEquals($this->_curl->getRequestHeader('custom-type'), null);
     }
 
+
     /**
      * Try to post raw json string
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
+     * @throws Exception
      */
     public function setRawPostDataTest (\FunctionalTester $I)
     {

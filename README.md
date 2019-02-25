@@ -186,6 +186,11 @@ Testing
  
 Changelog
 ------------
+##### Release 1.2.3 - Changelog
+- Fixed HTTP-Method parsing on PATCH request.
+- Composer dependencies updated.
+- Updated DocBlocks + code refactoring.  
+
 ##### Release 1.2.2 - Changelog
 - Added some new cURL examples into readme.md.
 
