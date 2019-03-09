@@ -218,6 +218,21 @@ class Curl
         return $this->_httpRequest('DELETE', $raw);
     }
 
+    /**
+     * Start performing OPTIONS-HTTP-Request
+     *
+     * @param string $url
+     * @param bool $raw if response body contains JSON and should be decoded
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    public function options($url, $raw = true)
+    {
+        $this->_baseUrl = $url;
+        return $this->_httpRequest('OPTIONS', $raw);
+    }
+
 
     /**
      * Set curl option

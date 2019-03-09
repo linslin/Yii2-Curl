@@ -14,6 +14,7 @@ Easy working cURL extension for Yii2, including RESTful support:
  - PUT
  - PATCH
  - DELETE
+ - OPTIONS
 
 Requirements
 ------------
