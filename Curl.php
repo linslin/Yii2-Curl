@@ -663,6 +663,7 @@ class Curl
 
         //end yii debug profile
         if (YII_DEBUG) {
+            Yii::trace('End cURL-Request: '.$this->response, __METHOD__);
             Yii::endProfile($method.' '.$this->getUrl().'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
         }
 
