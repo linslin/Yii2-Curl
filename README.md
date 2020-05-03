@@ -19,7 +19,7 @@ Easy working cURL extension for Yii2, including RESTful support:
 Requirements
 ------------
 - Yii2
-- PHP >=7.1.3
+- PHP >=7.2.0
 - ext-curl, ext-json, and php-curl installed
 
 
@@ -187,6 +187,12 @@ Testing
  
 Changelog
 ------------
+##### Release 1.4.0 - Changelog
+- Added support for HTTP-Method OPTIONS.
+- Removed deprecated PHP Version support. Minimum PHP Version is now 7.2.0. 
+Please use version "linslin/yii2-curl 1.3.0" - https://github.com/linslin/Yii2-Curl/releases/tag/1.3.0 if you need PHP 7.1.0+ support. 
+
+
 ##### Release 1.3.0 - Changelog
 - Fixed HTTP-Method parsing on PATCH request.
 - Updated DocBlocks + code refactoring.  
