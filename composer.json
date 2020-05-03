@@ -28,5 +28,10 @@
         "psr-4": {
             "linslin\\yii2\\curl\\": ""
         }
+    },
+    "archive": {
+        "exclude": [
+            "/tests"
+        ]
     }
 }
