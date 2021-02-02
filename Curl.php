@@ -633,7 +633,7 @@ class Curl
         //setup error reporting and profiling
         if (defined('YII_DEBUG') && YII_DEBUG) {
             Yii::debug('Start sending cURL-Request: '.$this->getUrl().'\n', __METHOD__);
-            Yii::beginProfile($method.' '.$this->_baseUrl.'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
+            Yii::beginProfile($method.' '.$this->_baseUrl.'#'.md5(serialize($this->_getDebugData())), __METHOD__);
         }
 
         /**
@@ -679,7 +679,7 @@ class Curl
         //end yii debug profile
         if (defined('YII_DEBUG') && YII_DEBUG) {
             Yii::debug('End cURL-Request: '.$this->response, __METHOD__);
-            Yii::endProfile($method.' '.$this->getUrl().'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
+            Yii::endProfile($method.' '.$this->getUrl().'#'.md5(serialize($this->_getDebugData())), __METHOD__);
         }
 
         //check responseCode and return data/status
@@ -765,5 +765,33 @@ class Curl
         }
 
         return $headers;
+    }
+
+
+    /**
+     * Collects debug data for serialize
+     * @return array|bool|mixed
+     */
+    private function _getDebugData () {
+
+        $data = [];
+
+        if (is_array($this->getOption(CURLOPT_POSTFIELDS))) {
+            foreach ($this->getOption(CURLOPT_POSTFIELDS) as $key => $debugItem) {
+                if (is_array($debugItem)) {
+                    $data[$key] = $debugItem;
+                } else if ($debugItem instanceof \CURLFile) {
+                    $data[$key] = [
+                        'name' => $debugItem->name,
+                        'mime' => $debugItem->mime,
+                        'postname' => $debugItem->postname,
+                    ];
+                } // more to come?
+            }
+        } else {
+            $data = $this->getOption(CURLOPT_POSTFIELDS);
+        }
+
+        return $data;
     }
 }

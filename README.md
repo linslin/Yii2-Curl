@@ -29,7 +29,7 @@ Installation
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
 ```bash
-php composer.phar require --prefer-dist linslin/yii2-curl "*"
+composer require --prefer-dist linslin/yii2-curl "*"
 ```
 
 
@@ -183,6 +183,7 @@ Testing
 
 - Run codeception tests with `vendor/bin/codecept run` in repository root dir. 
   On windows run `vendor\bin\codecept.bat run`. 
+  On windows with clover report run `vendor\bin\codecept.bat run --coverage-xml ./../../build/logs/clover.xml`. 
 
  
 Changelog
