@@ -13,8 +13,7 @@
     "require": {
         "ext-json": "*",
         "ext-curl": "*",
-        "yiisoft/yii2": "^2.0.0",
-        "yidas/yii2-bower-asset": "^2.0.13.1"
+        "yiisoft/yii2": "^2.0.0"
     },
     "require-dev": {
         "codeception/base": "^2.2.3",
@@ -33,5 +32,11 @@
         "exclude": [
             "/tests"
         ]
-    }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
 }
