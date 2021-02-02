@@ -1,6 +1,6 @@
 language: php
 php:
-  - '7.2.29'
+  - '8.0.1'
 branches:
   only:
   - master
