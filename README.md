@@ -192,7 +192,7 @@ Changelog
 ##### Release 1.5.0 - Changelog
 - Added PHP 8 support.
 - Removed not needed dependencies from the composer package file (https://github.com/linslin/Yii2-Curl/issues/88).
-- 
+- Fixed CURLFile object serialization for profiling (https://github.com/linslin/Yii2-Curl/issues/87).
 
 
 ##### Release 1.4.0 - Changelog
