@@ -182,6 +182,7 @@ Testing
 ------------
 
 - Run codeception tests with `vendor/bin/codecept run` in repository root dir. 
+  Run codeception with clover report `XDEBUG_MODE=coverage vendor/bin/codecept run --coverage-xml ./../../build/logs/clover.xml`. 
   On windows run `vendor\bin\codecept.bat run`. 
   On windows with clover report run `vendor\bin\codecept.bat run --coverage-xml ./../../build/logs/clover.xml`. 
 
