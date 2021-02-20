@@ -9,7 +9,7 @@ branches:
   - master
   - develop
 install:
-  - composer install
+  - composer update
 script:
   - XDEBUG_MODE=coverage vendor/bin/codecept run --coverage-xml ./../../build/logs/clover.xml
 addons:
