@@ -298,3 +298,11 @@ Please use version "linslin/yii2-curl 1.2.1" - https://github.com/linslin/Yii2-C
 
 ##### Release 1.0 - Changelog
 - Official stable release
+
+
+Thanks to
+------------
+------------
+Mariano Custiel ([@mcustiel](https://github.com/mcustiel))
+
+... and all other contributors. 
