@@ -13,7 +13,7 @@ class CurlTest extends \Codeception\Test\Unit
     public function testInit()
     {
         $curl = new linslin\yii2\curl\Curl();
-        expect($curl instanceof linslin\yii2\curl\Curl)->equals(true);
+        $this->assertTrue($curl instanceof linslin\yii2\curl\Curl);
     }
 }
 
