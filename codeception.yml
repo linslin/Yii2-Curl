@@ -23,6 +23,10 @@ extensions:
             bin_path: ../vendor/bin # defaults to codeception_dir/../vendor/bin
             debug: true # defaults to false
             start_delay: 1 # default to 0
+            suites:
+                - unit
+                - acceptance
+                - functional
 modules:
     enabled:
         - Phiremock:
