@@ -26,12 +26,6 @@ extensions:
             suites:
                 - unit
 modules:
-    config:
-        Db:
-            dsn: ''
-            user: ''
-            password: ''
-            dump: tests/_data/dump.sql
     enabled:
         - Phiremock:
               host: 127.0.0.1 # Defaults to localhost
