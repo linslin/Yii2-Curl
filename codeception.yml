@@ -16,7 +16,7 @@ settings:
 extensions:
     enabled:
         - Phiremock:
-              host: phiremock-myhost.dev # Defaults to localhost
+              host: 127.0.0.1 # Defaults to localhost
               port: 18080 # Defaults to 8086
               reset_before_each_test: false # if set to true, executes `$I->haveACleanSetupInRemoteService` before each test. Defaults to false
               expectations_path: /path/to/my/expectation/json/files # Defaults to codeception_dir/_data/phiremock-expectations
@@ -24,7 +24,6 @@ extensions:
               secure: true # Default: false
               extra_connections:  [] # Default: empty array
     config:
-
         \Codeception\Extension\Phiremock:
             listen: 127.0.0.1:18080 # defaults to 0.0.0.0:8086
             bin_path: ../vendor/bin # defaults to codeception_dir/../vendor/bin
