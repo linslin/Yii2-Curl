@@ -32,3 +32,7 @@ modules:
             user: ''
             password: ''
             dump: tests/_data/dump.sql
+    enabled:
+        - Phiremock:
+              host: 127.0.0.1 # Defaults to localhost
+              port: 18080 # Defaults to 8086
