@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "18aaebfaaa0df85f1fcc2bb43d3a11ec",
+    "content-hash": "7ec8aad52ca2e59e0201eb6fbd22119b",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -1229,6 +1229,75 @@
             "time": "2020-09-14T14:23:00+00:00"
         },
         {
+            "name": "mcustiel/phiremock-client",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mcustiel/phiremock-client.git",
+                "reference": "9fceee7c10f3bd8b9d02686360faf3c533ed2717"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mcustiel/phiremock-client/zipball/9fceee7c10f3bd8b9d02686360faf3c533ed2717",
+                "reference": "9fceee7c10f3bd8b9d02686360faf3c533ed2717",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "mcustiel/phiremock-common": "^1.0",
+                "php": "^7.2|^8.0",
+                "psr/http-client": "^1.0"
+            },
+            "require-dev": {
+                "codeception/codeception": "^4.0",
+                "codeception/module-asserts": "^1.0",
+                "codeception/module-phpbrowser": "^1.0",
+                "codeception/module-rest": "^1.0",
+                "guzzlehttp/guzzle": "^6.0",
+                "mcustiel/phiremock-server": "^1.0",
+                "phpunit/phpunit": "~8.0",
+                "symfony/process": "^3.0|^4.0|^5.0"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "Provides default client for http requests execution."
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Mcustiel\\Phiremock\\Client\\": "src"
+                },
+                "files": [
+                    "src/helper_functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Mariano Custiel",
+                    "email": "jmcustiel@gmail.com",
+                    "homepage": "https://github.com/mcustiel",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Client library to communicate with Phiremock server",
+            "keywords": [
+                "acceptance",
+                "external",
+                "http",
+                "mock",
+                "server",
+                "tests"
+            ],
+            "support": {
+                "issues": "https://github.com/mcustiel/phiremock-client/issues",
+                "source": "https://github.com/mcustiel/phiremock-client/tree/v1.1.2"
+            },
+            "time": "2021-02-07T11:15:14+00:00"
+        },
+        {
             "name": "mcustiel/phiremock-codeception-extension",
             "version": "v2.1.1",
             "source": {
@@ -1293,6 +1362,69 @@
                 "source": "https://github.com/mcustiel/phiremock-codeception-extension/tree/v2.1.1"
             },
             "time": "2021-02-07T12:27:35+00:00"
+        },
+        {
+            "name": "mcustiel/phiremock-codeception-module",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mcustiel/phiremock-codeception-module.git",
+                "reference": "b3dd459e7d61f45ecd5472981b8342417a5f575a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mcustiel/phiremock-codeception-module/zipball/b3dd459e7d61f45ecd5472981b8342417a5f575a",
+                "reference": "b3dd459e7d61f45ecd5472981b8342417a5f575a",
+                "shasum": ""
+            },
+            "require": {
+                "codeception/codeception": ">=2.2 <5.0",
+                "codeception/lib-asserts": "^1.1",
+                "mcustiel/phiremock-client": "^1.0",
+                "php": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "codeception/module-asserts": "^1.1",
+                "guzzlehttp/guzzle": "^7.0",
+                "mcustiel/phiremock-codeception-extension": "^2.0",
+                "mcustiel/phiremock-server": "^1.0"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Codeception\\Module\\": "src/Module",
+                    "Mcustiel\\Phiremock\\Codeception\\Util\\": "src/Util"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Mariano Custiel",
+                    "email": "jmcustiel@gmail.com",
+                    "homepage": "https://github.com/mcustiel",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Codeception module for PhireMock. Allows to stub remote services for HTTP requests.",
+            "keywords": [
+                "acceptance",
+                "codeception",
+                "external",
+                "http",
+                "mock",
+                "module",
+                "phiremock",
+                "server",
+                "tests"
+            ],
+            "support": {
+                "issues": "https://github.com/mcustiel/phiremock-codeception-module/issues",
+                "source": "https://github.com/mcustiel/phiremock-codeception-module/tree/v1.1.2"
+            },
+            "time": "2021-02-07T12:29:28+00:00"
         },
         {
             "name": "mcustiel/phiremock-common",
