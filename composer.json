@@ -18,6 +18,7 @@
     },
     "require-dev": {
         "guzzlehttp/guzzle": ">=4.1.4 <7.0",
+        "mcustiel/phiremock": "^2.1",
         "mcustiel/phiremock-codeception-extension": "^2.1",
         "mcustiel/phiremock-codeception-module": "^1.1.2",
         "codeception/module-asserts": "^1.3"

@@ -664,12 +664,11 @@ class httpMockCest
                 A::getRequest()->andUrl(Is::equalTo('/test/httpStatus/header'))
             )->then(
                 Respond::withStatusCode(200)
-                    ->andHeader('Content-Type', Is::equalTo('application/x-javascript;charset=UTF-8'))
+                    ->andHeader('Content-Type', 'application/x-javascript;charset=UTF-8')
             )
         );
 
-        $this->_curl
-            ->get($this->_endPoint . '/test/httpStatus/header');
+        $this->_curl->get($this->_endPoint . '/test/httpStatus/header');
 
         $I->assertEquals($this->_curl->responseCharset, 'utf-8');
     }
