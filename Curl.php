@@ -119,7 +119,14 @@ class Curl
 
 
     // ############################################### class methods // ##############################################
-
+     /**
+     * Init CURL If need use CURLOPT_COOKIESESSION call it first
+     */
+    public function init()
+    {
+        $this->curl = curl_init();
+        return $this;
+    }
     /**
      * Start performing GET-HTTP-Request
      *
@@ -245,7 +252,9 @@ class Curl
     public function setOption($key, $value)
     {
         //set value
-        if (array_key_exists($key, $this->_defaultOptions) && $key !== CURLOPT_WRITEFUNCTION) {
+        if($this->curl){
+            curl_setopt($this->curl, $key, $value);
+        } elseif (array_key_exists($key, $this->_defaultOptions) && $key !== CURLOPT_WRITEFUNCTION) {
             $this->_defaultOptions[$key] = $value;
         } else {
             $this->_options[$key] = $value;
@@ -508,7 +517,9 @@ class Curl
     public function unsetOption($key)
     {
         //reset a single option if its set already
-        if (isset($this->_options[$key])) {
+        if($this->curl){
+            curl_setopt($this->curl, $key, null);
+        } elseif (isset($this->_options[$key])) {
             unset($this->_options[$key]);
         }
 
@@ -628,6 +639,11 @@ class Curl
         if ($method === 'HEAD') {
             $this->setOption(CURLOPT_NOBODY, true);
             $this->unsetOption(CURLOPT_WRITEFUNCTION);
+        } elseif ($method === 'POST'){
+            $this->setOption(CURLOPT_POST, true);
+        } elseif ($method === 'GET'){
+            $this->setOption(CURLOPT_POST, false);
+            $this->unsetOption(CURLOPT_POSTFIELDS);
         }
 
         //setup error reporting and profiling
@@ -639,9 +655,13 @@ class Curl
         /**
          * proceed curl
          */
-        $curlOptions =  $this->getOptions();
-        $this->curl = curl_init($this->getUrl());
-        curl_setopt_array($this->curl, $curlOptions);
+        if(!$this->curl){
+            $curlOptions =  $this->getOptions();
+            $this->curl = curl_init($this->getUrl());
+            curl_setopt_array($this->curl, $curlOptions);
+        } else {
+            $this->setOption(CURLOPT_URL,$this->getUrl());
+        }
         $response = curl_exec($this->curl);
 
         //check if curl was successful
