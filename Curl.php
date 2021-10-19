@@ -237,7 +237,7 @@ class Curl
     /**
      * Set curl option
      *
-     * @param string $key
+     * @param int $key
      * @param mixed  $value
      *
      * @return $this
@@ -501,7 +501,7 @@ class Curl
     /**
      * Unset a single curl option
      *
-     * @param string $key
+     * @param int $key
      *
      * @return $this
      */
