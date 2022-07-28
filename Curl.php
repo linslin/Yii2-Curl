@@ -117,6 +117,12 @@ class Curl
     ];
 
 
+    public function init()
+    {
+        $this->curl = curl_init();
+        return $this;
+    }
+
 
     // ############################################### class methods // ##############################################
 
@@ -245,7 +251,9 @@ class Curl
     public function setOption($key, $value)
     {
         //set value
-        if (array_key_exists($key, $this->_defaultOptions) && $key !== CURLOPT_WRITEFUNCTION) {
+        if($this->curl){
+            curl_setopt($this->curl, $key, $value);
+        } elseif (array_key_exists($key, $this->_defaultOptions) && $key !== CURLOPT_WRITEFUNCTION) {
             $this->_defaultOptions[$key] = $value;
         } else {
             $this->_options[$key] = $value;
@@ -508,7 +516,9 @@ class Curl
     public function unsetOption($key)
     {
         //reset a single option if its set already
-        if (isset($this->_options[$key])) {
+        if($this->curl){
+            curl_setopt($this->curl, $key, null);
+        } elseif (isset($this->_options[$key])) {
             unset($this->_options[$key]);
         }
 
@@ -628,22 +638,32 @@ class Curl
         if ($method === 'HEAD') {
             $this->setOption(CURLOPT_NOBODY, true);
             $this->unsetOption(CURLOPT_WRITEFUNCTION);
+        } elseif ($method === 'POST'){
+            $this->setOption(CURLOPT_POST, true);
+        } elseif ($method === 'GET'){
+            $this->setOption(CURLOPT_POST,false);
+            $this->unsetOption(CURLOPT_POSTFIELDS);
         }
 
         //setup error reporting and profiling
         if (defined('YII_DEBUG') && YII_DEBUG) {
             Yii::debug('Start sending cURL-Request: '.$this->getUrl().'\n', __METHOD__);
-            Yii::beginProfile($method.' '.$this->_baseUrl.'#'.md5(serialize($this->_getDebugData())), __METHOD__);
+            Yii::beginProfile($method.' '.$this->_baseUrl.'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
         }
 
         /**
          * proceed curl
          */
         $curlOptions =  $this->getOptions();
-        $this->curl = curl_init($this->getUrl());
-        curl_setopt_array($this->curl, $curlOptions);
-        $response = curl_exec($this->curl);
+        if(!$this->curl){
+            $this->curl = curl_init($this->getUrl());
+            curl_setopt_array($this->curl, $curlOptions);
+        } else {
+            curl_setopt_array($this->curl, $this->_defaultOptions);
+            $this->setOption(CURLOPT_URL,$this->getUrl());
+        }
 
+        $response = curl_exec($this->curl);
         //check if curl was successful
         if ($response === false) {
 
@@ -679,11 +699,12 @@ class Curl
         //end yii debug profile
         if (defined('YII_DEBUG') && YII_DEBUG) {
             Yii::debug('End cURL-Request: '.$this->response, __METHOD__);
-            Yii::endProfile($method.' '.$this->getUrl().'#'.md5(serialize($this->_getDebugData())), __METHOD__);
+            Yii::endProfile($method.' '.$this->getUrl().'#'.md5(serialize($this->getOption(CURLOPT_POSTFIELDS))), __METHOD__);
         }
 
         //check responseCode and return data/status
         if ($this->getOption(CURLOPT_CUSTOMREQUEST) === 'HEAD') {
+
             return true;
         } else {
             $this->response = $raw ? $this->response : json_decode($this->response, true);
@@ -794,4 +815,5 @@ class Curl
 
         return $data;
     }
+}
 }
