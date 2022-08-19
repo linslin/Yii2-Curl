@@ -11,10 +11,9 @@
         }
     ],
     "require": {
-        "php": ">=7.2.0 <9.0",
+        "php": "7.2.0",
         "ext-json": "*",
-        "ext-curl": "*",
-        "yiisoft/yii2": "^2.0.0"
+        "ext-curl": "*"
     },
     "require-dev": {
         "guzzlehttp/guzzle": ">=4.1.4 <7.0",
